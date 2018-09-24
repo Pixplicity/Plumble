@@ -18,27 +18,30 @@
 package com.morlunk.mumbleclient.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.app.DrawerAdapter;
 import com.morlunk.mumbleclient.app.PlumbleActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Wrapper to create Plumble notifications.
  * Created by andrew on 08/08/14.
  */
 public class PlumbleConnectionNotification {
+
     private static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "connections";
+
     private static final String BROADCAST_MUTE = "b_mute";
     private static final String BROADCAST_DEAFEN = "b_deafen";
     private static final String BROADCAST_OVERLAY = "b_overlay";
@@ -135,6 +138,7 @@ public class PlumbleConnectionNotification {
         builder.setSmallIcon(R.drawable.ic_stat_notify);
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setOngoing(true);
+        builder.setChannelId(CHANNEL_ID);
 
         if (mActionsShown) {
             // Add notification triggers
@@ -158,6 +162,20 @@ public class PlumbleConnectionNotification {
         // FLAG_CANCEL_CURRENT ensures that the extra always gets sent.
         PendingIntent pendingIntent = PendingIntent.getActivity(mService, 0, channelListIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(pendingIntent);
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = mService.getString(R.string.notification_channel_connection);
+            String description = mService.getString(R.string.notification_channel_connection_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = mService.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
         Notification notification = builder.build();
         mService.startForeground(NOTIFICATION_ID, notification);

@@ -268,4 +268,7 @@
     <string name="shout_failed">Failed to create voice target!</string>
     <string name="shout_target">Shouting to %s</string>
     <string name="shout_configure">Configure Voice Target</string>
+
+    <string name="notification_channel_connection">Connection</string>
+    <string name="notification_channel_connection_description">Connection status</string>
 </resources>
