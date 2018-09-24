@@ -30,7 +30,7 @@
 
         <LinearLayout
             android:id="@+id/overlay_titlebar"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="12sp"
             android:orientation="horizontal">
@@ -38,7 +38,7 @@
             <TextView
                 android:id="@+id/overlay_title"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/app_name"
                 android:textColor="#777"
@@ -48,7 +48,7 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:background="#DDD"/>
 
             <ImageView
@@ -62,7 +62,7 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:background="#DDD"/>
 
             <ImageView
@@ -77,12 +77,12 @@
         </LinearLayout>
 
         <View
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#DDD"/>
 
         <ListView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/overlay_list"
@@ -92,7 +92,7 @@
             tools:listitem="@layout/overlay_user_row" />
 
         <View
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#DDD"/>
 

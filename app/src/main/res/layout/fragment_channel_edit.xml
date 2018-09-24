@@ -29,7 +29,7 @@
         android:text="@string/name"/>
 
     <EditText
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/channel_edit_name"/>
 
@@ -41,7 +41,7 @@
 
     <!-- TODO rich text editing / HTML -->
     <EditText
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="90dp"
         android:inputType="textMultiLine"
@@ -55,7 +55,7 @@
         android:text="@string/position"/>
 
     <EditText
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberSigned"
         android:ems="10"
