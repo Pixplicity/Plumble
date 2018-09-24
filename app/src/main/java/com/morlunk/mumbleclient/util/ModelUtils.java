@@ -24,7 +24,6 @@ import java.util.List;
 
 /**
  * Tools for dealing with the recursive user-channel hierarchy.
- * Created by andrew on 18/10/14.
  */
 public class ModelUtils {
     /**

@@ -29,7 +29,6 @@ import com.morlunk.jumble.util.JumbleObserver;
 
 /**
  * Encapsulates a menu requiring permissions.
- * Created by andrew on 19/11/15.
  */
 public class PermissionsPopupMenu implements PopupMenu.OnDismissListener {
     private final Context mContext;

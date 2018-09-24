@@ -36,7 +36,6 @@ import java.util.List;
  * A notification indicating that new messages have been received.
  * Intended to augment the existing {@link PlumbleConnectionNotification} by providing a higher
  * priority heads-up display on Android 5.0+ devices, as well as vibration.
- * Created by andrew on 25/03/16.
  */
 public class PlumbleMessageNotification {
     private static final int NOTIFICATION_ID = 2;

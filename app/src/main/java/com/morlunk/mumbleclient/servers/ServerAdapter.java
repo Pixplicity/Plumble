@@ -37,9 +37,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by andrew on 05/05/14.
- */
 public abstract class ServerAdapter<E extends Server> extends ArrayAdapter<E> {
     private static final int MAX_ACTIVE_PINGS = 50;
 

@@ -24,7 +24,6 @@ import java.util.Date;
 /**
  * A general chat message, either a text message from a user or an
  * informational notice.
- * Created by andrew on 28/04/15.
  */
 public interface IChatMessage {
     /**

@@ -35,8 +35,7 @@ import com.morlunk.mumbleclient.Settings;
 import com.morlunk.mumbleclient.channel.ChannelAdapter;
 
 /**
- * An onscreen interactive overlay displaying the users in the current channel.
- * Created by andrew on 26/09/13.
+ * An on-screen interactive overlay displaying the users in the current channel.
  */
 public class PlumbleOverlay {
 

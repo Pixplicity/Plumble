@@ -28,7 +28,6 @@ import com.morlunk.mumbleclient.R;
 
 /**
  * A hot corner in an area of the screen specified by {@link PlumbleHotCorner#getGravity()}.
- * Created by andrew on 07/06/14.
  */
 public class PlumbleHotCorner implements View.OnTouchListener {
     private WindowManager mWindowManager;

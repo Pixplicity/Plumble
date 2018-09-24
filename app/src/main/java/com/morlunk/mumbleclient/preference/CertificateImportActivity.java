@@ -45,9 +45,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.UUID;
 
-/**
- * Created by andrew on 11/01/16.
- */
 public class CertificateImportActivity extends Activity {
     public static final int REQUEST_FILE = 0;
 

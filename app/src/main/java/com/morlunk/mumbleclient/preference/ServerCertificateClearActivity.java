@@ -24,9 +24,6 @@ import android.widget.Toast;
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.util.PlumbleTrustStore;
 
-/**
- * Created by andrew on 13/01/16.
- */
 public class ServerCertificateClearActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -43,9 +43,7 @@ import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.channel.comment.ChannelDescriptionFragment;
 import com.morlunk.mumbleclient.db.PlumbleDatabase;
 
-/**
- * Created by andrew on 22/11/15.
- */
+
 public class ChannelMenu implements PermissionsPopupMenu.IOnMenuPrepareListener, PopupMenu.OnMenuItemClickListener {
     private final Context mContext;
     private final IChannel mChannel;

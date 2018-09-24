@@ -54,9 +54,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by andrew on 31/07/13.
- */
 public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu.IUserLocalStateListener {
     // Set particular bits to make the integer-based model item ids unique.
     public static final long CHANNEL_ID_MASK = (0x1L << 32);

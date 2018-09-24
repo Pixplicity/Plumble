@@ -19,9 +19,6 @@ package com.morlunk.mumbleclient.util;
 
 import com.morlunk.mumbleclient.service.IPlumbleService;
 
-/**
- * Created by andrew on 03/08/13.
- */
 public interface JumbleServiceProvider {
     IPlumbleService getService();
 

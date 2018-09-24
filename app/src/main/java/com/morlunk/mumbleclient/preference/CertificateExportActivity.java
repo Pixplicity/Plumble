@@ -36,9 +36,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by andrew on 12/01/16.
- */
 public class CertificateExportActivity extends Activity implements DialogInterface.OnClickListener {
     /**
      * The name of the directory to export to on external storage.

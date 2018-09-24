@@ -34,9 +34,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by andrew on 05/05/14.
- */
 class PublicServerFetchTask extends AsyncTask<Void, Void, List<PublicServer>> {
 
     private static final String MUMBLE_PUBLIC_URL = "http://mumble.info/list2.cgi";

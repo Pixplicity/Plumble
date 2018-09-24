@@ -30,7 +30,6 @@ import com.morlunk.mumbleclient.R;
 /**
  * A wrapper around a {@link android.view.MenuInflater} that tints menu items to the control color
  * of the action bar's theme.
- * Created by andrew on 27/10/14.
  */
 public class TintedMenuInflater {
     private MenuInflater mInflater;

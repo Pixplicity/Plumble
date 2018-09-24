@@ -17,9 +17,6 @@
 
 package com.morlunk.mumbleclient.db;
 
-/**
- * Created by andrew on 15/08/13.
- */
 public interface DatabaseProvider {
     PlumbleDatabase getDatabase();
 }

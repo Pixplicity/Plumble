@@ -19,9 +19,7 @@ package com.morlunk.mumbleclient.channel;
 
 import com.morlunk.jumble.model.IChannel;
 
-/**
- * Created by andrew on 20/10/14.
- */
+
 public interface OnChannelClickListener {
     void onChannelClick(IChannel channel);
 }

@@ -30,7 +30,6 @@ import com.morlunk.mumbleclient.R;
 /**
  * A notification indicating auto-reconnect is in progress, or if auto-reconnect is disabled,
  * a prompt to reconnect with the error message.
- * Created by andrew on 17/01/15.
  */
 public class PlumbleReconnectNotification {
     private static final int NOTIFICATION_ID = 2;

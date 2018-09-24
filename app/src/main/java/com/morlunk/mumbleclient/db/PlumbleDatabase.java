@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * An interface for persistent storage services (i.e. databases, cloud) to implement.
- * Created by andrew on 13/08/13.
  */
 public interface PlumbleDatabase {
     void open();

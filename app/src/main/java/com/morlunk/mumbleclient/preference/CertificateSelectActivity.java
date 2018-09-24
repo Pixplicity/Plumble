@@ -32,9 +32,6 @@ import com.morlunk.mumbleclient.db.PlumbleSQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by andrew on 11/01/16.
- */
 public class CertificateSelectActivity extends Activity implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
     private List<ICertificateItem> mCertificates;
 

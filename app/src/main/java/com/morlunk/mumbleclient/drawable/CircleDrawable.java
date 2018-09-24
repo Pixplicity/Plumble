@@ -34,7 +34,6 @@ import com.morlunk.mumbleclient.R;
 
 /**
  * A drawable containing a circular bitmap in the style of @drawable/outline_circle_talking_off.
- * Created by andrew on 19/10/14.
  */
 public class CircleDrawable extends Drawable {
     public static final int STROKE_WIDTH_DP = 1;

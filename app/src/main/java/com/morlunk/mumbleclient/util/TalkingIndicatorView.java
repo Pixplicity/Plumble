@@ -31,9 +31,6 @@ import android.view.animation.LinearInterpolator;
 
 import com.morlunk.mumbleclient.R;
 
-/**
- * Created by andrew on 30/11/15.
- */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TalkingIndicatorView extends View implements ValueAnimator.AnimatorUpdateListener {
     private static final float OVERSHOOT_TENSION = 3.5f;

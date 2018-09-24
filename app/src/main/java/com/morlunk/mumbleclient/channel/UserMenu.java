@@ -39,9 +39,6 @@ import com.morlunk.mumbleclient.util.ModelUtils;
 
 import java.util.List;
 
-/**
- * Created by andrew on 19/11/15.
- */
 public class UserMenu implements PermissionsPopupMenu.IOnMenuPrepareListener, PopupMenu.OnMenuItemClickListener {
     private final Context mContext;
     private final IUser mUser;

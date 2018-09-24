@@ -36,7 +36,6 @@ import java.util.ArrayList;
 
 /**
  * Constructs an intent for connection to a PlumbleService and executes it.
- * Created by andrew on 20/08/14.
  */
 public class ServerConnectTask extends AsyncTask<Server, Void, Intent> {
     private Context mContext;

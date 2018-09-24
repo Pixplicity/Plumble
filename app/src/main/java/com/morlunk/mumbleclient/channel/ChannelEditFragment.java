@@ -34,9 +34,7 @@ import com.morlunk.jumble.net.Permissions;
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.util.JumbleServiceProvider;
 
-/**
- * Created by andrew on 23/11/13.
- */
+
 public class ChannelEditFragment extends DialogFragment {
 
     private JumbleServiceProvider mServiceProvider;

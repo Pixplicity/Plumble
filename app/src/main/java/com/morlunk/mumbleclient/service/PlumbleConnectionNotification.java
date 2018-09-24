@@ -35,7 +35,6 @@ import com.morlunk.mumbleclient.app.PlumbleActivity;
 
 /**
  * Wrapper to create Plumble notifications.
- * Created by andrew on 08/08/14.
  */
 public class PlumbleConnectionNotification {
 

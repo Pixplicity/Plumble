@@ -24,9 +24,6 @@ import android.content.Intent;
 import com.morlunk.jumble.IJumbleService;
 import com.morlunk.jumble.IJumbleSession;
 
-/**
- * Created by andrew on 08/08/14.
- */
 public class TalkBroadcastReceiver extends BroadcastReceiver {
     public static final String BROADCAST_TALK = "com.morlunk.mumbleclient.action.TALK";
     public static final String EXTRA_TALK_STATUS = "status";

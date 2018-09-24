@@ -28,7 +28,6 @@ import com.morlunk.mumbleclient.service.IPlumbleService;
 
 /**
  * Fragment class intended to make binding the Jumble service to fragments easier.
- * Created by andrew on 04/08/13.
  */
 public abstract class JumbleServiceFragment extends Fragment {
 

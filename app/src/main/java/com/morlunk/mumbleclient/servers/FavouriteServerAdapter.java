@@ -25,9 +25,7 @@ import com.morlunk.mumbleclient.R;
 
 import java.util.List;
 
-/**
- * Created by andrew on 11/05/14.
- */
+
 public class FavouriteServerAdapter extends ServerAdapter<Server> {
 
     private FavouriteServerAdapterMenuListener mListener;

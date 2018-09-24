@@ -26,7 +26,6 @@ import com.morlunk.mumbleclient.R;
 /**
  * A callback that sets the active chat target when activated, and resets when destroyed (usually
  * to the user's current channel).
- * Created by andrew on 26/06/14.
  */
 public class ChatTargetActionModeCallback implements ActionMode.Callback {
     private final ChatTargetProvider mProvider;

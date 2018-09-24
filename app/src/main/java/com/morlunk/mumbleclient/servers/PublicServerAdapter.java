@@ -31,9 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by andrew on 07/05/14.
- */
+
 public class PublicServerAdapter extends ServerAdapter<PublicServer> {
     private List<PublicServer> mUnfilteredServers;
     private PublicServerAdapterMenuListener mListener;

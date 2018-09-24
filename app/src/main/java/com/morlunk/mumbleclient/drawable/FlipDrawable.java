@@ -26,7 +26,6 @@ import android.graphics.drawable.LayerDrawable;
 
 /**
  * A transition drawable that shows a "flip" between two different images.
- * Created by andrew on 19/10/14.
  */
 @TargetApi(11)
 public class FlipDrawable extends LayerDrawable implements ValueAnimator.AnimatorUpdateListener {

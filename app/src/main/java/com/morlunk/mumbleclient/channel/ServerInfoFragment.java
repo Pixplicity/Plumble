@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * A fragment that displays known information from the remote server.
- * Created by andrew on 28/08/13.
  */
 public class ServerInfoFragment extends JumbleServiceFragment {
 

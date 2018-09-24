@@ -38,7 +38,6 @@ import android.support.test.runner.AndroidJUnit4;
 /**
  * Test case designed to test operations of Plumble's database.
  * A new DB is created and destroyed with each test call.
- * Created by andrew on 19/08/14.
  */
 @RunWith(AndroidJUnit4.class)
 @SmallTest

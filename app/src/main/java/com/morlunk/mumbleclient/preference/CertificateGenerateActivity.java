@@ -26,9 +26,6 @@ import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.Settings;
 import com.morlunk.mumbleclient.db.DatabaseCertificate;
 
-/**
- * Created by andrew on 12/01/16.
- */
 public class CertificateGenerateActivity extends Activity {
 
     @Override

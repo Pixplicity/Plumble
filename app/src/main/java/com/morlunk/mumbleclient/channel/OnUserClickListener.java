@@ -19,9 +19,6 @@ package com.morlunk.mumbleclient.channel;
 
 import com.morlunk.jumble.model.IUser;
 
-/**
- * Created by andrew on 20/10/14.
- */
 public interface OnUserClickListener {
     void onUserClick(IUser user);
 }

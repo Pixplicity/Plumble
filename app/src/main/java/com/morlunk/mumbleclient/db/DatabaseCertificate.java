@@ -19,7 +19,6 @@ package com.morlunk.mumbleclient.db;
 
 /**
  * A stub for a certificate entry in Plumble's database.
- * Created by andrew on 11/01/16.
  */
 public class DatabaseCertificate {
     private final long mId;

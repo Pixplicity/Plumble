@@ -21,9 +21,6 @@ import com.morlunk.jumble.IJumbleService;
 import com.morlunk.jumble.model.IUser;
 import com.morlunk.jumble.util.JumbleObserver;
 
-/**
- * Created by andrew on 03/03/14.
- */
 public class UserCommentFragment extends AbstractCommentFragment {
 
     @Override

@@ -41,7 +41,6 @@ import java.util.Map;
 /**
  * Implementation of ImageGetter designed for Mumble MOTDs and messages.
  * Can read base64-embedded images and references. Caches them too.
- * Created by andrew on 07/02/14.
  */
 public class MumbleImageGetter implements Html.ImageGetter {
 

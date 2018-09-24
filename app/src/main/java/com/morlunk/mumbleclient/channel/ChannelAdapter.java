@@ -33,7 +33,6 @@ import com.morlunk.mumbleclient.R;
 
 /**
  * Simple adapter to display the users in a single channel.
- * Created by andrew on 24/11/13.
  */
 public class ChannelAdapter extends BaseAdapter {
 

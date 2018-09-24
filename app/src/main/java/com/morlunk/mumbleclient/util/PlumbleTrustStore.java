@@ -29,9 +29,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
-/**
- * Created by andrew on 05/04/14.
- */
 public class PlumbleTrustStore {
 
     private static final String STORE_FILE = "plumble-store.bks";
