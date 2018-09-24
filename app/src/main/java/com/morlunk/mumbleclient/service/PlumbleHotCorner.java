@@ -40,7 +40,7 @@ public class PlumbleHotCorner implements View.OnTouchListener {
     private WindowManager.LayoutParams mParams;
 
     public PlumbleHotCorner(Context context, int gravity, PlumbleHotCornerListener listener) {
-        if(listener == null) {
+        if (listener == null) {
             throw new NullPointerException("A PlumbleHotCornerListener must be assigned.");
         }
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,7 +63,7 @@ public class PlumbleHotCorner implements View.OnTouchListener {
      * Does nothing if the hot corner is not shown.
      */
     private void updateLayout() {
-        if(!isShown()) return;
+        if (!isShown()) return;
         mWindowManager.updateViewLayout(mView, mParams);
     }
 
@@ -83,9 +83,13 @@ public class PlumbleHotCorner implements View.OnTouchListener {
         }
     }
 
+    public boolean isShown() {
+        return mShown;
+    }
+
     public void setShown(boolean shown) {
-        if(shown == mShown) return;
-        if(shown) {
+        if (shown == mShown) return;
+        if (shown) {
             mWindowManager.addView(mView, mParams);
         } else {
             mWindowManager.removeView(mView);
@@ -93,8 +97,8 @@ public class PlumbleHotCorner implements View.OnTouchListener {
         mShown = shown;
     }
 
-    public boolean isShown() {
-        return mShown;
+    public int getGravity() {
+        return mParams.gravity;
     }
 
     public void setGravity(int gravity) {
@@ -102,12 +106,9 @@ public class PlumbleHotCorner implements View.OnTouchListener {
         updateLayout();
     }
 
-    public int getGravity() {
-        return mParams.gravity;
-    }
-
     public static interface PlumbleHotCornerListener {
         public void onHotCornerDown();
+
         public void onHotCornerUp();
     }
 }

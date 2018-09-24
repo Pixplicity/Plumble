@@ -21,11 +21,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import android.text.InputType;
 import android.widget.EditText;
@@ -37,13 +35,10 @@ import com.morlunk.mumbleclient.db.PlumbleSQLiteDatabase;
 
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -129,7 +124,7 @@ public class CertificateImportActivity extends Activity {
             });
             promptBuilder.show();
             return;
-        } catch (KeyStoreException|IOException|NoSuchAlgorithmException e) {
+        } catch (KeyStoreException | IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.invalid_certificate, Toast.LENGTH_LONG).show();
             finish();
@@ -139,7 +134,7 @@ public class CertificateImportActivity extends Activity {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         try {
             keyStore.store(output, new char[0]);
-        } catch (KeyStoreException|IOException|NoSuchAlgorithmException|CertificateException e) {
+        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
             e.printStackTrace();
             Toast.makeText(this, R.string.certificate_load_failed, Toast.LENGTH_LONG).show();
             finish();
@@ -151,7 +146,7 @@ public class CertificateImportActivity extends Activity {
         database.close();
 
         Toast.makeText(this, getString(R.string.certificate_import_success, fileName),
-                       Toast.LENGTH_LONG).show();
+                Toast.LENGTH_LONG).show();
         finish();
     }
 }

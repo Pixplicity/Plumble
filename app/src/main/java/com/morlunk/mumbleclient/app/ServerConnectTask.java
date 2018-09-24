@@ -70,7 +70,7 @@ public class ServerConnectTask extends AsyncTask<Server, Void, Intent> {
 
         Intent connectIntent = new Intent(mContext, PlumbleService.class);
         connectIntent.putExtra(JumbleService.EXTRAS_SERVER, server);
-        connectIntent.putExtra(JumbleService.EXTRAS_CLIENT_NAME, mContext.getString(R.string.app_name)+" "+applicationVersion);
+        connectIntent.putExtra(JumbleService.EXTRAS_CLIENT_NAME, mContext.getString(R.string.app_name) + " " + applicationVersion);
         connectIntent.putExtra(JumbleService.EXTRAS_TRANSMIT_MODE, inputMethod);
         connectIntent.putExtra(JumbleService.EXTRAS_DETECTION_THRESHOLD, mSettings.getDetectionThreshold());
         connectIntent.putExtra(JumbleService.EXTRAS_AMPLITUDE_BOOST, mSettings.getAmplitudeBoostMultiplier());

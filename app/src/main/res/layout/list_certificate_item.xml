@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Andrew Comminos <andrew@comminos.com>
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -17,14 +16,13 @@
   -->
 
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@android:id/text1"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:textAppearance="?android:attr/textAppearanceSmall"
-                 android:textColor="#000"
-                 android:text="@string/certificates"
-                 android:gravity="center_vertical"
-                 android:padding="12dp"
-                 android:checkMark="?android:attr/listChoiceIndicatorSingle"
-                 android:ellipsize="marquee"
-    />
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+    android:ellipsize="marquee"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:text="@string/certificates"
+    android:textAppearance="?android:attr/textAppearanceSmall"
+    android:textColor="#000" />

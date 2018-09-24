@@ -39,25 +39,26 @@ public class ServerEditFragment extends DialogFragment {
     private static final String ARGUMENT_ACTION = "action";
     private static final String ARGUMENT_IGNORE_TITLE = "ignore_title";
 
-	private EditText mNameEdit;
-	private EditText mHostEdit;
-	private EditText mPortEdit;
-	private EditText mUsernameEdit;
+    private EditText mNameEdit;
+    private EditText mHostEdit;
+    private EditText mPortEdit;
+    private EditText mUsernameEdit;
     private EditText mPasswordEdit;
-	
-	private ServerEditListener mListener;
+
+    private ServerEditListener mListener;
 
     /**
      * Creates a new {@link ServerEditFragment} dialog. Results will be delivered to the parent
      * activity via {@link ServerEditListener}.
-     * @param server Optional, if set will populate the fragment with data from the server.
-     * @param action The action the fragment is performing (i.e. Add, Edit)
+     *
+     * @param server      Optional, if set will populate the fragment with data from the server.
+     * @param action      The action the fragment is performing (i.e. Add, Edit)
      * @param ignoreTitle If true, don't show fields related to the server title (useful for quick
      *                    connect dialogs)
      */
     public static DialogFragment createServerEditDialog(Context context, Server server,
-                                                  Action action,
-                                                  boolean ignoreTitle) {
+                                                        Action action,
+                                                        boolean ignoreTitle) {
         Bundle args = new Bundle();
         args.putParcelable(ARGUMENT_SERVER, server);
         args.putInt(ARGUMENT_ACTION, action.ordinal());
@@ -72,21 +73,21 @@ public class ServerEditFragment extends DialogFragment {
     }
 
     @Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         try {
             mListener = (ServerEditListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement ServerEditListener!");
         }
-	}
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         // Override positive button to not automatically dismiss on press.
         // We can't accomplish this with AlertDialog.Builder.
-        ((AlertDialog)getDialog()).getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+        ((AlertDialog) getDialog()).getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validate()) {
@@ -153,7 +154,7 @@ public class ServerEditFragment extends DialogFragment {
         return adb.create();
     }
 
-	public Server createServer() {
+    public Server createServer() {
         String name = (mNameEdit).getText().toString().trim();
         String host = (mHostEdit).getText().toString().trim();
 
@@ -179,11 +180,12 @@ public class ServerEditFragment extends DialogFragment {
         }
 
         return new Server(id, name, host, port, username, password);
-	}
+    }
 
     /**
      * Checks all fields in this ServerEditFragment for validity.
      * If an invalid field is found, an error is shown and false is returned.
+     *
      * @return true if the inputted values are valid, false otherwise.
      */
     public boolean validate() {
@@ -217,13 +219,13 @@ public class ServerEditFragment extends DialogFragment {
         return getArguments().getBoolean(ARGUMENT_IGNORE_TITLE);
     }
 
-    public interface ServerEditListener {
-        void onServerEdited(Action action, Server server);
-    }
-
     public enum Action {
         CONNECT_ACTION,
         EDIT_ACTION,
         ADD_ACTION
+    }
+
+    public interface ServerEditListener {
+        void onServerEdited(Action action, Server server);
     }
 }

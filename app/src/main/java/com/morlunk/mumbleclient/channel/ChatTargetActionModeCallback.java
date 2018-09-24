@@ -22,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.morlunk.mumbleclient.R;
-import com.morlunk.mumbleclient.channel.ChatTargetProvider;
 
 /**
  * A callback that sets the active chat target when activated, and resets when destroyed (usually

@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +73,7 @@ public abstract class AbstractCommentFragment extends DialogFragment {
         mTabHost = (TabHost) view.findViewById(R.id.comment_tabhost);
         mTabHost.setup();
 
-        if(mComment == null) {
+        if (mComment == null) {
             mCommentView.loadData("Loading...", null, null);
             requestComment(mProvider.getService());
         } else {
@@ -95,10 +94,10 @@ public abstract class AbstractCommentFragment extends DialogFragment {
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                if("View".equals(tabId)) {
+                if ("View".equals(tabId)) {
                     // When switching back to view tab, update with user's HTML changes.
                     mCommentView.loadData(mCommentEdit.getText().toString(), "text/html", "UTF-8");
-                } else if("Edit".equals(tabId) && "".equals(mCommentEdit.getText().toString())) {
+                } else if ("Edit".equals(tabId) && "".equals(mCommentEdit.getText().toString())) {
                     // Load edittext content for the first time when the tab is selected, to improve performance with long messages.
                     mCommentEdit.setText(mComment);
                 }
@@ -122,7 +121,7 @@ public abstract class AbstractCommentFragment extends DialogFragment {
     }
 
     protected void loadComment(String comment) {
-        if(mCommentView == null) return;
+        if (mCommentView == null) return;
         mCommentView.loadData(comment, "text/html", "UTF-8");
         mComment = comment;
     }
@@ -134,12 +133,14 @@ public abstract class AbstractCommentFragment extends DialogFragment {
     /**
      * Requests a comment from the service. Will not be called if we already have a comment provided.
      * This method is expected to set a callback that will call {@link com.morlunk.mumbleclient.channel.comment.AbstractCommentFragment#loadComment(String comment)}.
+     *
      * @param service The bound Jumble service to use for remote calls.
      */
     public abstract void requestComment(IJumbleService service);
 
     /**
      * Asks the service to replace the comment.
+     *
      * @param service The bound Jumble service to use for remote calls.
      * @param comment The comment the user has defined.
      */

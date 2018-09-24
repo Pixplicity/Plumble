@@ -90,8 +90,8 @@ public class CircleDrawable extends Drawable {
         RectF imageRect = new RectF(getBounds());
         RectF strokeRect = new RectF(getBounds());
         // Default stroke drawing is both inset and outset.
-        strokeRect.inset(mStrokePaint.getStrokeWidth()/2,
-                         mStrokePaint.getStrokeWidth()/2);
+        strokeRect.inset(mStrokePaint.getStrokeWidth() / 2,
+                mStrokePaint.getStrokeWidth() / 2);
 
         canvas.drawOval(imageRect, mPaint);
         canvas.drawOval(strokeRect, mStrokePaint);

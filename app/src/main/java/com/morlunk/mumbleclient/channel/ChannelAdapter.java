@@ -18,7 +18,6 @@
 package com.morlunk.mumbleclient.channel;
 
 import android.content.Context;
-import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.morlunk.jumble.model.Channel;
 import com.morlunk.jumble.model.IChannel;
 import com.morlunk.jumble.model.IUser;
 import com.morlunk.jumble.model.TalkState;
@@ -68,7 +66,7 @@ public class ChannelAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-        if(v == null) {
+        if (v == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             v = layoutInflater.inflate(R.layout.overlay_user_row, parent, false);
         }
@@ -87,8 +85,7 @@ public class ChannelAdapter extends BaseAdapter {
             state.setImageResource(R.drawable.ic_server_muted);
         else if (user.isSuppressed())
             state.setImageResource(R.drawable.ic_suppressed);
-        else
-        if (user.getTalkState() == TalkState.TALKING)
+        else if (user.getTalkState() == TalkState.TALKING)
             state.setImageResource(R.drawable.ic_talking_on);
         else
             state.setImageResource(R.drawable.ic_talking_off);
@@ -96,12 +93,12 @@ public class ChannelAdapter extends BaseAdapter {
         return v;
     }
 
+    public IChannel getChannel() {
+        return mChannel;
+    }
+
     public void setChannel(IChannel channel) {
         mChannel = channel;
         notifyDataSetChanged();
-    }
-
-    public IChannel getChannel() {
-        return mChannel;
     }
 }

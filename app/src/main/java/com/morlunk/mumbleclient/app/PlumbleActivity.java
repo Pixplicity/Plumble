@@ -52,7 +52,6 @@ import android.widget.Toast;
 import com.morlunk.jumble.IJumbleService;
 import com.morlunk.jumble.IJumbleSession;
 import com.morlunk.jumble.model.Server;
-import com.morlunk.jumble.protobuf.Mumble;
 import com.morlunk.jumble.util.JumbleException;
 import com.morlunk.jumble.util.JumbleObserver;
 import com.morlunk.jumble.util.MumbleURLParser;
@@ -113,35 +112,10 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
     private AlertDialog mErrorDialog;
     private AlertDialog.Builder mDisconnectPromptBuilder;
 
-    /** List of fragments to be notified about service state changes. */
+    /**
+     * List of fragments to be notified about service state changes.
+     */
     private List<JumbleServiceFragment> mServiceFragments = new ArrayList<JumbleServiceFragment>();
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = ((PlumbleService.PlumbleBinder) service).getService();
-            mService.setSuppressNotifications(true);
-            mService.registerObserver(mObserver);
-            mService.clearChatNotifications(); // Clear chat notifications on resume.
-            mDrawerAdapter.notifyDataSetChanged();
-
-            for(JumbleServiceFragment fragment : mServiceFragments)
-                fragment.setServiceBound(true);
-
-            // Re-show server list if we're showing a fragment that depends on the service.
-            if(getSupportFragmentManager().findFragmentById(R.id.content_frame) instanceof JumbleServiceFragment &&
-                    !mService.isConnected()) {
-                loadDrawerFragment(DrawerAdapter.ITEM_FAVOURITES);
-            }
-            updateConnectionState(getService());
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-        }
-    };
-
     private JumbleObserver mObserver = new JumbleObserver() {
         @Override
         public void onConnected() {
@@ -165,7 +139,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         @Override
         public void onDisconnected(JumbleException e) {
             // Re-show server list if we're showing a fragment that depends on the service.
-            if(getSupportFragmentManager().findFragmentById(R.id.content_frame) instanceof JumbleServiceFragment) {
+            if (getSupportFragmentManager().findFragmentById(R.id.content_frame) instanceof JumbleServiceFragment) {
                 loadDrawerFragment(DrawerAdapter.ITEM_FAVOURITES);
             }
             mDrawerAdapter.notifyDataSetChanged();
@@ -232,6 +206,31 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
             adb.show();
         }
     };
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = ((PlumbleService.PlumbleBinder) service).getService();
+            mService.setSuppressNotifications(true);
+            mService.registerObserver(mObserver);
+            mService.clearChatNotifications(); // Clear chat notifications on resume.
+            mDrawerAdapter.notifyDataSetChanged();
+
+            for (JumbleServiceFragment fragment : mServiceFragments)
+                fragment.setServiceBound(true);
+
+            // Re-show server list if we're showing a fragment that depends on the service.
+            if (getSupportFragmentManager().findFragmentById(R.id.content_frame) instanceof JumbleServiceFragment &&
+                    !mService.isConnected()) {
+                loadDrawerFragment(DrawerAdapter.ITEM_FAVOURITES);
+            }
+            updateConnectionState(getService());
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,7 +282,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Tint logo to theme
-        int iconColor = getTheme().obtainStyledAttributes(new int[] { android.R.attr.textColorPrimaryInverse }).getColor(0, -1);
+        int iconColor = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorPrimaryInverse}).getColor(0, -1);
         Drawable logo = getResources().getDrawable(R.drawable.ic_home);
         logo.setColorFilter(iconColor, PorterDuff.Mode.MULTIPLY);
         getSupportActionBar().setLogo(logo);
@@ -293,14 +292,14 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         dadb.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(mService != null) mService.disconnect();
+                if (mService != null) mService.disconnect();
                 loadDrawerFragment(DrawerAdapter.ITEM_FAVOURITES);
             }
         });
         dadb.setNegativeButton(android.R.string.cancel, null);
         mDisconnectPromptBuilder = dadb;
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().hasExtra(EXTRA_DRAWER_FRAGMENT)) {
                 loadDrawerFragment(getIntent().getIntExtra(EXTRA_DRAWER_FRAGMENT,
                         DrawerAdapter.ITEM_FAVOURITES));
@@ -310,7 +309,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         }
 
         // If we're given a Mumble URL to show, open up a server edit fragment.
-        if(getIntent() != null &&
+        if (getIntent() != null &&
                 Intent.ACTION_VIEW.equals(getIntent().getAction())) {
             String url = getIntent().getDataString();
             try {
@@ -329,7 +328,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         setVolumeControlStream(mSettings.isHandsetMode() ?
                 AudioManager.STREAM_VOICE_CALL : AudioManager.STREAM_MUSIC);
 
-        if(mSettings.isFirstRun()) showSetupWizard();
+        if (mSettings.isFirstRun()) showSetupWizard();
     }
 
     @Override
@@ -353,7 +352,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         if (mConnectingDialog != null)
             mConnectingDialog.dismiss();
 
-        if(mService != null) {
+        if (mService != null) {
             for (JumbleServiceFragment fragment : mServiceFragments) {
                 fragment.setServiceBound(false);
             }
@@ -378,11 +377,11 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
 
         // Color the action bar icons to the primary text color of the theme.
         int foregroundColor = getSupportActionBar().getThemedContext()
-                .obtainStyledAttributes(new int[] { android.R.attr.textColor })
+                .obtainStyledAttributes(new int[]{android.R.attr.textColor})
                 .getColor(0, -1);
-        for(int x=0;x<menu.size();x++) {
+        for (int x = 0; x < menu.size(); x++) {
             MenuItem item = menu.getItem(x);
-            if(item.getIcon() != null) {
+            if (item.getIcon() != null) {
                 Drawable icon = item.getIcon().mutate(); // Mutate the icon so that the color filter is exclusive to the action bar
                 icon.setColorFilter(foregroundColor, PorterDuff.Mode.MULTIPLY);
             }
@@ -400,7 +399,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mDrawerToggle.onOptionsItemSelected(item))
+        if (mDrawerToggle.onOptionsItemSelected(item))
             return true;
 
         switch (item.getItemId()) {
@@ -438,7 +437,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
 
     @Override
     public void onBackPressed() {
-        if(mService != null && mService.isConnected()) {
+        if (mService != null && mService.isConnected()) {
             mDisconnectPromptBuilder.show();
             return;
         }
@@ -457,7 +456,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
      */
     private void showSetupWizard() {
         // Prompt the user to generate a certificate.
-        if(mSettings.isUsingCertificate()) return;
+        if (mSettings.isUsingCertificate()) return;
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle(R.string.first_run_generate_certificate_title);
         adb.setMessage(R.string.first_run_generate_certificate);
@@ -468,7 +467,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
                     @Override
                     protected void onPostExecute(DatabaseCertificate result) {
                         super.onPostExecute(result);
-                        if(result != null) mSettings.setDefaultCertificateId(result.getId());
+                        if (result != null) mSettings.setDefaultCertificateId(result.getId());
                     }
                 };
                 generateTask.execute();
@@ -520,15 +519,15 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
         }
         Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), args);
         getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, fragment, fragmentClass.getName())
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
+                .replace(R.id.content_frame, fragment, fragmentClass.getName())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
         setTitle(mDrawerAdapter.getItemWithId(fragmentId).title);
     }
 
     public void connectToServer(final Server server) {
         // Check if we're already connected to a server; if so, inform user.
-        if(mService != null && mService.isConnected()) {
+        if (mService != null && mService.isConnected()) {
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setMessage(R.string.reconnect_dialog_message);
             adb.setPositiveButton(R.string.connect, new DialogInterface.OnClickListener() {
@@ -579,7 +578,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 PublicServer newServer = server;
-                if(!usernameField.getText().toString().equals(""))
+                if (!usernameField.getText().toString().equals(""))
                     newServer.setUsername(usernameField.getText().toString());
                 else
                     newServer.setUsername(settings.getDefaultUsername());
@@ -603,6 +602,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
      * Will show reconnecting dialog if reconnecting, dismiss otherwise, etc.
      * Basically, this service will do catch-up if the activity wasn't bound to receive
      * connection state updates.
+     *
      * @param service A bound IJumbleService.
      */
     private void updateConnectionState(IJumbleService service) {
@@ -720,9 +720,9 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(Settings.PREF_THEME.equals(key)) {
+        if (Settings.PREF_THEME.equals(key)) {
             // Recreate activity when theme is changed
-            if(Build.VERSION.SDK_INT >= 11)
+            if (Build.VERSION.SDK_INT >= 11)
                 recreate();
             else {
                 Intent intent = new Intent(this, PlumbleActivity.class);
@@ -744,7 +744,7 @@ public class PlumbleActivity extends AppCompatActivity implements ListView.OnIte
 
     @Override
     public String getConnectedServerName() {
-        if(mService != null && mService.isConnected()) {
+        if (mService != null && mService.isConnected()) {
             Server server = mService.getTargetServer();
             return server.getName().equals("") ? server.getHost() : server.getName();
         }

@@ -20,7 +20,6 @@ package com.morlunk.mumbleclient.channel;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,22 +44,15 @@ import java.util.List;
 
 public class AccessTokenFragment extends JumbleServiceFragment {
 
-    public interface AccessTokenListener {
-        public void onAccessTokenAdded(long serverId, String token);
-        public void onAccessTokenRemoved(long serverId, String token);
-    }
-
-	private List<String> mTokens;
-	
-	private ListView mTokenList;
-	private TokenAdapter mTokenAdapter;
-	private EditText mTokenField;
-
+    private List<String> mTokens;
+    private ListView mTokenList;
+    private TokenAdapter mTokenAdapter;
+    private EditText mTokenField;
     private DatabaseProvider mProvider;
 
     @Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
         mTokens = new ArrayList<String>(getAccessTokens());
         mTokenAdapter = new TokenAdapter(activity, mTokens);
@@ -70,59 +62,59 @@ public class AccessTokenFragment extends JumbleServiceFragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement DatabaseProvider");
         }
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_tokens, container, false);
+    }
 
-        mTokenList = (ListView) view.findViewById(R.id.tokenList);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tokens, container, false);
+
+        mTokenList = view.findViewById(R.id.tokenList);
         mTokenList.setAdapter(mTokenAdapter);
 
-        mTokenField = (EditText) view.findViewById(R.id.tokenField);
+        mTokenField = view.findViewById(R.id.tokenField);
         mTokenField.setOnEditorActionListener(new OnEditorActionListener() {
-			
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if(actionId == EditorInfo.IME_ACTION_SEND) {
-					addToken();
-					return true;
-				}
-				return false;
-			}
-		});
-		
-		ImageButton addButton = (ImageButton) view.findViewById(R.id.tokenAddButton);
-		addButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				addToken();
-			}
-		});
-		
-		return view;
-	}
 
-	private void addToken() {
-		String tokenText = mTokenField.getText().toString().trim();
-		
-		if(tokenText.equals(""))
-			return;
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    addToken();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        ImageButton addButton = view.findViewById(R.id.tokenAddButton);
+        addButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                addToken();
+            }
+        });
+
+        return view;
+    }
+
+    private void addToken() {
+        String tokenText = mTokenField.getText().toString().trim();
+
+        if (tokenText.equals(""))
+            return;
 
         mTokenField.setText("");
-		
-		Log.i(Constants.TAG, "Adding token: " + tokenText);
-		
-		mTokens.add(tokenText);
-		mTokenAdapter.notifyDataSetChanged();
 
-		mTokenList.smoothScrollToPosition(mTokens.size() - 1);
+        Log.i(Constants.TAG, "Adding token: " + tokenText);
+
+        mTokens.add(tokenText);
+        mTokenAdapter.notifyDataSetChanged();
+
+        mTokenList.smoothScrollToPosition(mTokens.size() - 1);
         mProvider.getDatabase().addAccessToken(getServerId(), tokenText);
-		if (getService().isConnected()) {
-			getService().getSession().sendAccessTokens(mTokens);
-		}
+        if (getService().isConnected()) {
+            getService().getSession().sendAccessTokens(mTokens);
+        }
     }
 
     private long getServerId() {
@@ -132,43 +124,43 @@ public class AccessTokenFragment extends JumbleServiceFragment {
     private List<String> getAccessTokens() {
         return getArguments().getStringArrayList("access_tokens");
     }
-	
-	private class TokenAdapter extends ArrayAdapter<String> {
 
-		public TokenAdapter(Context context,
-				List<String> objects) {
-			super(context, android.R.layout.simple_list_item_1, objects);
-		}
-		
-		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
-			View view = convertView;
-			if(convertView == null) {
-				view = getActivity().getLayoutInflater().inflate(R.layout.token_row, null, false);
-			}
-			
-			final String token = getItem(position);
-			
-			TextView title = (TextView) view.findViewById(R.id.tokenItemTitle);
-			title.setText(token);
-			
-			ImageButton deleteButton = (ImageButton) view.findViewById(R.id.tokenItemDelete);
-			deleteButton.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
+    private class TokenAdapter extends ArrayAdapter<String> {
+
+        public TokenAdapter(Context context,
+                            List<String> objects) {
+            super(context, android.R.layout.simple_list_item_1, objects);
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            if (convertView == null) {
+                view = getActivity().getLayoutInflater().inflate(R.layout.token_row, null, false);
+            }
+
+            final String token = getItem(position);
+
+            TextView title = view.findViewById(R.id.tokenItemTitle);
+            title.setText(token);
+
+            ImageButton deleteButton = view.findViewById(R.id.tokenItemDelete);
+            deleteButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
                     mTokens.remove(position);
-					notifyDataSetChanged();
+                    notifyDataSetChanged();
                     mProvider.getDatabase().removeAccessToken(getServerId(), token);
-					if (getService().isConnected()) {
-						getService().getSession().sendAccessTokens(mTokens);
-					}
+                    if (getService().isConnected()) {
+                        getService().getSession().sendAccessTokens(mTokens);
+                    }
                 }
-			});
+            });
 
-			return view;
-		}
-		
-	}
+            return view;
+        }
+
+    }
 
 }

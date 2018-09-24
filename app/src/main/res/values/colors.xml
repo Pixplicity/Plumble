@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Andrew Comminos
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -17,6 +16,7 @@
   -->
 
 <resources>
+
     <color name="cardOutline">#d3d3d3</color>
     <color name="push_to_talk_background">#555555</color>
     <color name="card_dark">#111111</color>
@@ -24,7 +24,7 @@
 
     <color name="popup_menu_item_background">#555555</color>
     <color name="popup_menu_item_disabled_mask">#66000000</color>
-    
+
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
     <!-- A light Holo shade of green -->
@@ -63,4 +63,5 @@
     <color name="ripple_talk_state_suppressed">@color/holo_green_dark</color>
     <color name="ripple_talk_state_server_muted">@color/holo_blue_dark</color>
     <color name="ripple_talk_state_server_deafened">@color/holo_blue_dark</color>
+
 </resources>

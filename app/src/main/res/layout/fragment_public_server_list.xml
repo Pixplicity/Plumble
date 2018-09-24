@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Andrew Comminos
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -16,32 +15,32 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<GridView
-		android:id="@+id/server_list_grid"
-		android:layout_height="match_parent"
-		android:layout_width="match_parent"
-		android:gravity="center"
-		android:columnWidth="320dp"
-		android:numColumns="auto_fit"
-		android:verticalSpacing="10dp"
-		android:horizontalSpacing="10dp"
-		android:padding="10dp"
-		android:stretchMode="columnWidth"
+    <GridView
+        android:id="@+id/server_list_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
-		android:fastScrollEnabled="true"
-        android:listSelector="@android:color/transparent"/>
-	
-	<ProgressBar 
-	    android:id="@+id/serverProgress"
-	    android:layout_width="50dp"
-	    android:layout_height="50dp"
-	    android:layout_centerInParent="true"
-	    android:indeterminate="true"
-	    android:visibility="gone"/>
+        android:columnWidth="320dp"
+        android:fastScrollEnabled="true"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="auto_fit"
+        android:padding="10dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
+
+    <ProgressBar
+        android:id="@+id/serverProgress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

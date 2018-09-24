@@ -34,51 +34,52 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PlumbleCertificateGenerateTask extends AsyncTask<Void, Void, DatabaseCertificate> {
-	private static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
+    private static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
 
-	private Context context;
-	private ProgressDialog loadingDialog;
-	
-	public PlumbleCertificateGenerateTask(Context context) {
-		this.context = context;
-	}
-	
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		
-		loadingDialog = new ProgressDialog(context);
-		loadingDialog.setIndeterminate(true);
-		loadingDialog.setMessage(context.getString(R.string.generateCertProgress));
-		loadingDialog.setCancelable(false);
-		loadingDialog.show();
-	}
-	@Override
-	protected DatabaseCertificate doInBackground(Void... params) {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			JumbleCertificateGenerator.generateCertificate(baos);
+    private Context context;
+    private ProgressDialog loadingDialog;
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-			String fileName = context.getString(R.string.certificate_export_format, dateFormat.format(new Date()));
+    public PlumbleCertificateGenerateTask(Context context) {
+        this.context = context;
+    }
 
-			PlumbleDatabase database = new PlumbleSQLiteDatabase(context);
-			DatabaseCertificate dc = database.addCertificate(fileName, baos.toByteArray());
-			database.close();
-			return dc;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	@Override
-	protected void onPostExecute(DatabaseCertificate result) {
-		super.onPostExecute(result);
-		if(result == null) {
-			Toast.makeText(context, R.string.generateCertFailure, Toast.LENGTH_SHORT).show();
-		}
-		
-		loadingDialog.dismiss();
-	}
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        loadingDialog = new ProgressDialog(context);
+        loadingDialog.setIndeterminate(true);
+        loadingDialog.setMessage(context.getString(R.string.generateCertProgress));
+        loadingDialog.setCancelable(false);
+        loadingDialog.show();
+    }
+
+    @Override
+    protected DatabaseCertificate doInBackground(Void... params) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            JumbleCertificateGenerator.generateCertificate(baos);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+            String fileName = context.getString(R.string.certificate_export_format, dateFormat.format(new Date()));
+
+            PlumbleDatabase database = new PlumbleSQLiteDatabase(context);
+            DatabaseCertificate dc = database.addCertificate(fileName, baos.toByteArray());
+            database.close();
+            return dc;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(DatabaseCertificate result) {
+        super.onPostExecute(result);
+        if (result == null) {
+            Toast.makeText(context, R.string.generateCertFailure, Toast.LENGTH_SHORT).show();
+        }
+
+        loadingDialog.dismiss();
+    }
 }

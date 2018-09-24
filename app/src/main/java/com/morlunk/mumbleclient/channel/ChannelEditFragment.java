@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.morlunk.jumble.IJumbleSession;
-import com.morlunk.jumble.model.Channel;
 import com.morlunk.jumble.model.IChannel;
 import com.morlunk.jumble.net.Permissions;
 import com.morlunk.mumbleclient.R;
@@ -86,7 +84,7 @@ public class ChannelEditFragment extends DialogFragment {
                 .setPositiveButton(isAdding() ? R.string.add : R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(isAdding() && mServiceProvider.getService().isConnected()) {
+                        if (isAdding() && mServiceProvider.getService().isConnected()) {
                             mServiceProvider.getService().getSession().createChannel(getParent(),
                                     mNameField.getText().toString(),
                                     mDescriptionField.getText().toString(),
@@ -114,6 +112,7 @@ public class ChannelEditFragment extends DialogFragment {
     public int getParent() {
         return getArguments().getInt("parent");
     }
+
     /**
      * @return the channel being updated.
      */

@@ -65,17 +65,6 @@ public class PlumbleConnectionNotification {
         }
     };
 
-    /**
-     * Creates a foreground Plumble notification for the given service.
-     * @param service The service to register a foreground notification for.
-     * @param listener An listener for notification actions.
-     * @return A new PlumbleNotification instance.
-     */
-    public static PlumbleConnectionNotification create(Service service, String ticker, String contentText,
-                                                       OnActionListener listener) {
-        return new PlumbleConnectionNotification(service, ticker, contentText, listener);
-    }
-
     private PlumbleConnectionNotification(Service service, String ticker, String contentText,
                                           OnActionListener listener) {
         mService = service;
@@ -83,6 +72,18 @@ public class PlumbleConnectionNotification {
         mCustomTicker = ticker;
         mCustomContentText = contentText;
         mActionsShown = false;
+    }
+
+    /**
+     * Creates a foreground Plumble notification for the given service.
+     *
+     * @param service  The service to register a foreground notification for.
+     * @param listener An listener for notification actions.
+     * @return A new PlumbleNotification instance.
+     */
+    public static PlumbleConnectionNotification create(Service service, String ticker, String contentText,
+                                                       OnActionListener listener) {
+        return new PlumbleConnectionNotification(service, ticker, contentText, listener);
     }
 
     public void setCustomTicker(String ticker) {
@@ -184,7 +185,9 @@ public class PlumbleConnectionNotification {
 
     public interface OnActionListener {
         void onMuteToggled();
+
         void onDeafenToggled();
+
         void onOverlayToggled();
     }
 }

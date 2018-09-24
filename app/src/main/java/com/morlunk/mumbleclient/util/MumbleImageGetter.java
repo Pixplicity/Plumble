@@ -45,7 +45,9 @@ import java.util.Map;
  */
 public class MumbleImageGetter implements Html.ImageGetter {
 
-    /** The maximum image size in bytes to load. */
+    /**
+     * The maximum image size in bytes to load.
+     */
     private static final int MAX_LENGTH = 64000;
 
     private Context mContext;
@@ -65,7 +67,7 @@ public class MumbleImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
         Drawable cachedDrawable = mBitmapCache.get(source);
-        if(cachedDrawable != null) return cachedDrawable;
+        if (cachedDrawable != null) return cachedDrawable;
 
         String decodedSource; // Decode from URL encoding
         try {
@@ -77,20 +79,20 @@ public class MumbleImageGetter implements Html.ImageGetter {
 
         Bitmap bitmap = null;
         try {
-            if(decodedSource.startsWith("data:image")) {
+            if (decodedSource.startsWith("data:image")) {
                 bitmap = getBase64Image(decodedSource.split(",")[1]);
-            } else if(mSettings.shouldLoadExternalImages()) {
+            } else if (mSettings.shouldLoadExternalImages()) {
                 bitmap = getURLImage(decodedSource);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return null;
         }
-        if(bitmap == null) return null;
+        if (bitmap == null) return null;
 
         BitmapDrawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics(); // Use display metrics to scale image to mdpi
-        drawable.setBounds(0, 0, (int)((float)drawable.getIntrinsicWidth()*metrics.density), (int)((float)drawable.getIntrinsicHeight()*metrics.density));
+        drawable.setBounds(0, 0, (int) ((float) drawable.getIntrinsicWidth() * metrics.density), (int) ((float) drawable.getIntrinsicHeight() * metrics.density));
         mBitmapCache.put(source, drawable);
         return drawable;
     }
@@ -104,7 +106,7 @@ public class MumbleImageGetter implements Html.ImageGetter {
         try {
             URL url = new URL(source);
             URLConnection conn = url.openConnection();
-            if(conn.getContentLength() > MAX_LENGTH) return null;
+            if (conn.getContentLength() > MAX_LENGTH) return null;
             return BitmapFactory.decodeStream(conn.getInputStream());
         } catch (MalformedURLException e) {
             e.printStackTrace();

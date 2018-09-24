@@ -83,7 +83,7 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     public static final String LOCAL_MUTE_SERVER = "server";
     public static final String LOCAL_MUTE_USER = "user";
     public static final String TABLE_LOCAL_MUTE_CREATE_SQL = "CREATE TABLE IF NOT EXISTS " + TABLE_LOCAL_MUTE + " ("
-            + "`" + LOCAL_MUTE_SERVER +"` INTEGER NOT NULL,"
+            + "`" + LOCAL_MUTE_SERVER + "` INTEGER NOT NULL,"
             + "`" + LOCAL_MUTE_USER + "` INTEGER NOT NULL,"
             + "CONSTRAINT server_user UNIQUE(" + LOCAL_MUTE_SERVER + "," + LOCAL_MUTE_USER + ")"
             + ");";
@@ -92,7 +92,7 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     public static final String LOCAL_IGNORE_SERVER = "server";
     public static final String LOCAL_IGNORE_USER = "user";
     public static final String TABLE_LOCAL_IGNORE_CREATE_SQL = "CREATE TABLE IF NOT EXISTS " + TABLE_LOCAL_IGNORE + " ("
-            + "`" + LOCAL_IGNORE_SERVER +"` INTEGER NOT NULL,"
+            + "`" + LOCAL_IGNORE_SERVER + "` INTEGER NOT NULL,"
             + "`" + LOCAL_IGNORE_USER + "` INTEGER NOT NULL,"
             + "CONSTRAINT server_user UNIQUE(" + LOCAL_IGNORE_SERVER + "," + LOCAL_IGNORE_USER + ")"
             + ");";
@@ -231,14 +231,14 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     @Override
     public void removeServer(Server server) {
         getWritableDatabase().delete(TABLE_SERVER, SERVER_ID + "=?",
-                new String[] { String.valueOf(server.getId()) });
+                new String[]{String.valueOf(server.getId())});
         // Clean up server-specific entries
         getWritableDatabase().delete(TABLE_FAVOURITES, FAVOURITES_SERVER + "=?",
-                new String[] { String.valueOf(server.getId()) });
+                new String[]{String.valueOf(server.getId())});
         getWritableDatabase().delete(TABLE_TOKENS, TOKENS_SERVER + "=?",
-                new String[] { String.valueOf(server.getId()) });
+                new String[]{String.valueOf(server.getId())});
         getWritableDatabase().delete(TABLE_LOCAL_MUTE, LOCAL_MUTE_SERVER + "=?",
-                new String[] { String.valueOf(server.getId()) });
+                new String[]{String.valueOf(server.getId())});
         getWritableDatabase().delete(TABLE_LOCAL_IGNORE, LOCAL_IGNORE_SERVER + "=?",
                 new String[]{String.valueOf(server.getId())});
     }
@@ -280,7 +280,7 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
                 TABLE_FAVOURITES,
                 new String[]{FAVOURITES_CHANNEL},
                 FAVOURITES_SERVER + "=? AND " +
-                FAVOURITES_CHANNEL + "=?",
+                        FAVOURITES_CHANNEL + "=?",
                 new String[]{String.valueOf(serverId), String.valueOf(channelId)},
                 null,
                 null,
@@ -290,15 +290,15 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     }
 
     public void removePinnedChannel(long serverId, int channelId) {
-        getWritableDatabase().delete(TABLE_FAVOURITES, "server = ? AND channel = ?", new String[] { Long.toString(serverId), Integer.toString(channelId)});
+        getWritableDatabase().delete(TABLE_FAVOURITES, "server = ? AND channel = ?", new String[]{Long.toString(serverId), Integer.toString(channelId)});
     }
 
     @Override
     public List<String> getAccessTokens(long serverId) {
-        Cursor cursor = getReadableDatabase().query(TABLE_TOKENS, new String[] { TOKENS_VALUE }, TOKENS_SERVER+"=?", new String[] { String.valueOf(serverId) }, null, null, null);
+        Cursor cursor = getReadableDatabase().query(TABLE_TOKENS, new String[]{TOKENS_VALUE}, TOKENS_SERVER + "=?", new String[]{String.valueOf(serverId)}, null, null, null);
         cursor.moveToFirst();
         List<String> tokens = new ArrayList<String>();
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             tokens.add(cursor.getString(0));
             cursor.moveToNext();
         }
@@ -316,15 +316,15 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
 
     @Override
     public void removeAccessToken(long serverId, String token) {
-        getWritableDatabase().delete(TABLE_TOKENS, TOKENS_SERVER+"=? AND "+TOKENS_VALUE+"=?", new String[] {String.valueOf(serverId), token });
+        getWritableDatabase().delete(TABLE_TOKENS, TOKENS_SERVER + "=? AND " + TOKENS_VALUE + "=?", new String[]{String.valueOf(serverId), token});
     }
 
     @Override
     public List<Integer> getLocalMutedUsers(long serverId) {
         Cursor cursor = getReadableDatabase().query(TABLE_LOCAL_MUTE,
-                new String[] { LOCAL_MUTE_USER },
+                new String[]{LOCAL_MUTE_USER},
                 LOCAL_MUTE_SERVER + "=?",
-                new String[] { String.valueOf(serverId) },
+                new String[]{String.valueOf(serverId)},
                 null, null, null);
         cursor.moveToNext();
         List<Integer> users = new ArrayList<Integer>();
@@ -347,15 +347,15 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     public void removeLocalMutedUser(long serverId, int userId) {
         getWritableDatabase().delete(TABLE_LOCAL_MUTE,
                 LOCAL_MUTE_SERVER + "=? AND " + LOCAL_MUTE_USER + "=?",
-                new String[] { String.valueOf(serverId), String.valueOf(userId) });
+                new String[]{String.valueOf(serverId), String.valueOf(userId)});
     }
 
     @Override
     public List<Integer> getLocalIgnoredUsers(long serverId) {
         Cursor cursor = getReadableDatabase().query(TABLE_LOCAL_IGNORE,
-                new String[] { LOCAL_IGNORE_USER },
+                new String[]{LOCAL_IGNORE_USER},
                 LOCAL_IGNORE_SERVER + "=?",
-                new String[] { String.valueOf(serverId) },
+                new String[]{String.valueOf(serverId)},
                 null, null, null);
         cursor.moveToFirst();
         List<Integer> users = new ArrayList<Integer>();
@@ -378,7 +378,7 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     public void removeLocalIgnoredUser(long serverId, int userId) {
         getWritableDatabase().delete(TABLE_LOCAL_IGNORE,
                 LOCAL_IGNORE_SERVER + "=? AND " + LOCAL_IGNORE_USER + "=?",
-                new String[] { String.valueOf(serverId), String.valueOf(userId) });
+                new String[]{String.valueOf(serverId), String.valueOf(userId)});
     }
 
     @Override
@@ -393,7 +393,7 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     @Override
     public List<DatabaseCertificate> getCertificates() {
         Cursor cursor = getReadableDatabase().query(TABLE_CERTIFICATES,
-                new String[] { COLUMN_CERTIFICATES_ID, COLUMN_CERTIFICATES_NAME },
+                new String[]{COLUMN_CERTIFICATES_ID, COLUMN_CERTIFICATES_NAME},
                 null, null, null, null, null);
         List<DatabaseCertificate> certificates = new ArrayList<>();
         cursor.moveToFirst();
@@ -408,9 +408,9 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     @Override
     public byte[] getCertificateData(long id) {
         Cursor cursor = getReadableDatabase().query(TABLE_CERTIFICATES,
-                new String[] { COLUMN_CERTIFICATES_DATA },
+                new String[]{COLUMN_CERTIFICATES_DATA},
                 COLUMN_CERTIFICATES_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null);
+                new String[]{String.valueOf(id)}, null, null, null);
         if (!cursor.moveToFirst())
             return null;
         byte[] data = cursor.getBlob(0);
@@ -422,7 +422,7 @@ public class PlumbleSQLiteDatabase extends SQLiteOpenHelper implements PlumbleDa
     public void removeCertificate(long id) {
         getWritableDatabase().delete(TABLE_CERTIFICATES,
                 COLUMN_CERTIFICATES_ID + "=?",
-                new String[] { String.valueOf(id) });
+                new String[]{String.valueOf(id)});
     }
 
     @Override

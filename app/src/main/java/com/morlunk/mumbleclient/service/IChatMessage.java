@@ -17,8 +17,6 @@
 
 package com.morlunk.mumbleclient.service;
 
-import android.os.RemoteException;
-
 import com.morlunk.jumble.model.IMessage;
 
 import java.util.Date;
@@ -41,9 +39,16 @@ public interface IChatMessage {
 
     /**
      * Calls the provided visitor object with the proper message implementation.
+     *
      * @param visitor A visitor object responding to the underlying chat message type.
      */
     void accept(Visitor visitor);
+
+    interface Visitor {
+        void visit(TextMessage message);
+
+        void visit(InfoMessage message);
+    }
 
     /**
      * A text message from a user.
@@ -122,10 +127,5 @@ public interface IChatMessage {
             WARNING,
             ERROR
         }
-    }
-
-    interface Visitor {
-        void visit(TextMessage message);
-        void visit(InfoMessage message);
     }
 }

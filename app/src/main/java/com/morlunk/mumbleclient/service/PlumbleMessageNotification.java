@@ -24,8 +24,6 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.morlunk.jumble.model.Channel;
-import com.morlunk.jumble.model.IChannel;
 import com.morlunk.jumble.model.IMessage;
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.app.DrawerAdapter;
@@ -42,7 +40,7 @@ import java.util.List;
  */
 public class PlumbleMessageNotification {
     private static final int NOTIFICATION_ID = 2;
-    private static final long VIBRATION_PATTERN[] = { 0, 100 };
+    private static final long VIBRATION_PATTERN[] = {0, 100};
 
     private final Context mContext;
     private final List<IMessage> mUnreadMessages;
@@ -55,6 +53,7 @@ public class PlumbleMessageNotification {
     /**
      * Shows the notification with the provided message.
      * If the notification is already shown, append the message to the existing notification.
+     *
      * @param message The message to notify the user about.
      */
     public void show(IMessage message) {

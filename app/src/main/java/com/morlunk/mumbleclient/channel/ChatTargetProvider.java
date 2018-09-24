@@ -17,18 +17,32 @@
 
 package com.morlunk.mumbleclient.channel;
 
-import com.morlunk.jumble.model.Channel;
 import com.morlunk.jumble.model.IChannel;
 import com.morlunk.jumble.model.IUser;
-import com.morlunk.jumble.model.User;
 import com.morlunk.mumbleclient.BuildConfig;
 
 public interface ChatTargetProvider {
 
+    ChatTarget getChatTarget();
+
+    void setChatTarget(ChatTarget target);
+
+    void registerChatTargetListener(OnChatTargetSelectedListener listener);
+
+    void unregisterChatTargetListener(OnChatTargetSelectedListener listener);
+
+    /**
+     * Interface for classes which wish to receive chat target change calls.
+     * Created by andrew on 06/08/13.
+     */
+    interface OnChatTargetSelectedListener {
+        void onChatTargetSelected(ChatTarget target);
+    }
+
     /**
      * Abstraction for user and channel chat targets.
      */
-    public class ChatTarget {
+    class ChatTarget {
         private IChannel mChannel;
         private IUser mUser;
 
@@ -58,17 +72,4 @@ public interface ChatTargetProvider {
             return "Unknown";
         }
     }
-
-    /**
-     * Interface for classes which wish to receive chat target change calls.
-     * Created by andrew on 06/08/13.
-     */
-    public interface OnChatTargetSelectedListener {
-        public void onChatTargetSelected(ChatTarget target);
-    }
-
-    public ChatTarget getChatTarget();
-    public void setChatTarget(ChatTarget target);
-    public void registerChatTargetListener(OnChatTargetSelectedListener listener);
-    public void unregisterChatTargetListener(OnChatTargetSelectedListener listener);
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Andrew Comminos
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -20,25 +19,30 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="10dp">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_name"/>
+        android:text="@string/search_name" />
+
     <EditText
         android:id="@+id/server_search_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:imeOptions="actionSearch"
-        android:inputType="text"/>
+        android:inputType="text" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search_country"/>
+        android:text="@string/search_country" />
+
     <EditText
         android:id="@+id/server_search_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:imeOptions="actionSearch"
-        android:inputType="text"/>
+        android:inputType="text" />
+
 </LinearLayout>

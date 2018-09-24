@@ -87,6 +87,7 @@ public class CertificateSelectActivity extends Activity implements DialogInterfa
 
     private interface ICertificateItem {
         void onActivate();
+
         boolean isDefault();
     }
 

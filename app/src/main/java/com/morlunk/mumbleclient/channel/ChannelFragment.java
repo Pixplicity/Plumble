@@ -70,10 +70,14 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
     private TextView mTargetPanelText;
 
     private ChatTarget mChatTarget;
-    /** Chat target listeners, notified when the chat target is changed. */
+    /**
+     * Chat target listeners, notified when the chat target is changed.
+     */
     private List<OnChatTargetSelectedListener> mChatTargetListeners = new ArrayList<OnChatTargetSelectedListener>();
 
-    /** True iff the talk button has been hidden (e.g. when muted) */
+    /**
+     * True iff the talk button has been hidden (e.g. when muted)
+     */
     private boolean mTalkButtonHidden;
 
     private JumbleObserver mObserver = new JumbleObserver() {
@@ -123,10 +127,10 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_channel, container, false);
-        mViewPager = (ViewPager) view.findViewById(R.id.channel_view_pager);
-        mTabStrip = (PagerTabStrip) view.findViewById(R.id.channel_tab_strip);
-        if(mTabStrip != null) {
-            int[] attrs = new int[] { R.attr.colorPrimary, android.R.attr.textColorPrimaryInverse };
+        mViewPager = view.findViewById(R.id.channel_view_pager);
+        mTabStrip = view.findViewById(R.id.channel_tab_strip);
+        if (mTabStrip != null) {
+            int[] attrs = new int[]{R.attr.colorPrimary, android.R.attr.textColorPrimaryInverse};
             TypedArray a = getActivity().obtainStyledAttributes(attrs);
             int titleStripBackground = a.getColor(0, -1);
             int titleStripColor = a.getColor(1, -1);
@@ -156,7 +160,7 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
             }
         });
         mTargetPanel = view.findViewById(R.id.target_panel);
-        mTargetPanelCancel = (ImageView) view.findViewById(R.id.target_panel_cancel);
+        mTargetPanelCancel = view.findViewById(R.id.target_panel_cancel);
         mTargetPanelCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +175,7 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
                 }
             }
         });
-        mTargetPanelText = (TextView) view.findViewById(R.id.target_panel_warning);
+        mTargetPanelText = view.findViewById(R.id.target_panel_warning);
         configureInput();
         return view;
     }
@@ -183,7 +187,7 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.registerOnSharedPreferenceChangeListener(this);
 
-        if(mViewPager != null) { // Phone
+        if (mViewPager != null) { // Phone
             ChannelFragmentPagerAdapter pagerAdapter = new ChannelFragmentPagerAdapter(getChildFragmentManager());
             mViewPager.setAdapter(pagerAdapter);
         } else { // Tablet
@@ -227,7 +231,7 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
     public void onPause() {
         super.onPause();
         if (getService() != null && getService().isConnected() &&
-            !Settings.getInstance(getActivity()).isPushToTalkToggle()) {
+                !Settings.getInstance(getActivity()).isPushToTalkToggle()) {
             // XXX: This ensures that push to talk is disabled when we pause.
             // We don't want to leave the talk state active if the fragment is paused while pressed.
             getService().getSession().setTalkingState(false);
@@ -275,7 +279,7 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
      */
     private boolean isShowingPinnedChannels() {
         return getArguments() != null &&
-               getArguments().getBoolean("pinned");
+                getArguments().getBoolean("pinned");
     }
 
     /**
@@ -295,8 +299,8 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
         }
         boolean showPttButton =
                 !muted &&
-                settings.isPushToTalkButtonShown() &&
-                settings.getInputMethod().equals(Settings.ARRAY_INPUT_METHOD_PTT);
+                        settings.isPushToTalkButtonShown() &&
+                        settings.getInputMethod().equals(Settings.ARRAY_INPUT_METHOD_PTT);
         setTalkButtonHidden(!showPttButton);
     }
 
@@ -333,9 +337,9 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(Settings.PREF_INPUT_METHOD.equals(key)
-            || Settings.PREF_PUSH_BUTTON_HIDE_KEY.equals(key)
-            || Settings.PREF_PTT_BUTTON_HEIGHT.equals(key))
+        if (Settings.PREF_INPUT_METHOD.equals(key)
+                || Settings.PREF_PUSH_BUTTON_HIDE_KEY.equals(key)
+                || Settings.PREF_PTT_BUTTON_HEIGHT.equals(key))
             configureInput();
     }
 
@@ -347,7 +351,7 @@ public class ChannelFragment extends JumbleServiceFragment implements SharedPref
     @Override
     public void setChatTarget(ChatTarget target) {
         mChatTarget = target;
-        for(OnChatTargetSelectedListener listener : mChatTargetListeners)
+        for (OnChatTargetSelectedListener listener : mChatTargetListeners)
             listener.onChatTargetSelected(target);
     }
 

@@ -21,24 +21,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.morlunk.jumble.model.Server;
-import com.morlunk.mumbleclient.BuildConfig;
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.db.DatabaseProvider;
 import com.morlunk.mumbleclient.db.PublicServer;
@@ -47,8 +42,8 @@ import java.util.List;
 
 /**
  * Displays a list of servers, and allows the user to connect and edit them.
- * @author morlunk
  *
+ * @author morlunk
  */
 public class FavouriteServerListFragment extends Fragment implements OnItemClickListener, FavouriteServerAdapter.FavouriteServerAdapterMenuListener {
 
@@ -68,10 +63,10 @@ public class FavouriteServerListFragment extends Fragment implements OnItemClick
         super.onAttach(activity);
 
         try {
-            mConnectHandler = (ServerConnectHandler)activity;
+            mConnectHandler = (ServerConnectHandler) activity;
             mDatabaseProvider = (DatabaseProvider) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()+" must implement ServerConnectHandler!");
+            throw new ClassCastException(activity.toString() + " must implement ServerConnectHandler!");
         }
     }
 
@@ -125,7 +120,7 @@ public class FavouriteServerListFragment extends Fragment implements OnItemClick
 
     public void shareServer(Server server) {
         // Build Mumble server URL
-        String serverUrl = "mumble://"+server.getHost()+":"+server.getPort()+"/";
+        String serverUrl = "mumble://" + server.getHost() + ":" + server.getPort() + "/";
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
@@ -155,7 +150,6 @@ public class FavouriteServerListFragment extends Fragment implements OnItemClick
     }
 
 
-
     public List<Server> getServers() {
         List<Server> servers = mDatabaseProvider.getDatabase().getServers();
         return servers;
@@ -168,6 +162,7 @@ public class FavouriteServerListFragment extends Fragment implements OnItemClick
 
     public static interface ServerConnectHandler {
         public void connectToServer(Server server);
+
         public void connectToPublicServer(PublicServer server);
     }
 }

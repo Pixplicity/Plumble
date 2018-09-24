@@ -28,8 +28,6 @@ import android.widget.TextView;
 
 import com.morlunk.jumble.IJumbleService;
 import com.morlunk.jumble.IJumbleSession;
-import com.morlunk.jumble.JumbleService;
-import com.morlunk.jumble.net.JumbleConnection;
 import com.morlunk.jumble.net.JumbleUDPMessageType;
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.util.JumbleServiceFragment;
@@ -78,15 +76,15 @@ public class ServerInfoFragment extends JumbleServiceFragment {
      * Updates the info from the service.
      */
     public void updateData() throws RemoteException {
-        if(getService() == null || !getService().isConnected())
+        if (getService() == null || !getService().isConnected())
             return;
 
         IJumbleSession session = getService().getSession();
 
         mProtocolView.setText(getString(R.string.server_info_protocol, session.getServerRelease()));
         mOSVersionView.setText(getString(R.string.server_info_version, session.getServerOSName(), session.getServerOSVersion()));
-        mTCPLatencyView.setText(getString(R.string.server_info_latency, (float)session.getTCPLatency()*Math.pow(10, -3)));
-        mUDPLatencyView.setText(getString(R.string.server_info_latency, (float)session.getUDPLatency()*Math.pow(10, -3)));
+        mTCPLatencyView.setText(getString(R.string.server_info_latency, (float) session.getTCPLatency() * Math.pow(10, -3)));
+        mUDPLatencyView.setText(getString(R.string.server_info_latency, (float) session.getUDPLatency() * Math.pow(10, -3)));
         mHostView.setText(getString(R.string.server_info_host, getService().getTargetServer().getHost(), getService().getTargetServer().getPort()));
 
         String codecName;
@@ -108,8 +106,8 @@ public class ServerInfoFragment extends JumbleServiceFragment {
                 codecName = "???";
         }
 
-        mMaxBandwidthView.setText(getString(R.string.server_info_max_bandwidth, (float)session.getMaxBandwidth()/1000f));
-        mCurrentBandwidthView.setText(getString(R.string.server_info_current_bandwidth, (float)session.getCurrentBandwidth()/1000f));
+        mMaxBandwidthView.setText(getString(R.string.server_info_max_bandwidth, (float) session.getMaxBandwidth() / 1000f));
+        mCurrentBandwidthView.setText(getString(R.string.server_info_current_bandwidth, (float) session.getCurrentBandwidth() / 1000f));
         mCodecView.setText(getString(R.string.server_info_codec, codecName));
     }
 
@@ -123,7 +121,7 @@ public class ServerInfoFragment extends JumbleServiceFragment {
                     @Override
                     public void run() {
                         try {
-                            if(isVisible()) updateData();
+                            if (isVisible()) updateData();
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }

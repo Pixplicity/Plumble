@@ -64,7 +64,7 @@ public class PermissionsPopupMenu implements PopupMenu.OnDismissListener {
     private int getPermissions() {
         if (mService.isConnected()) {
             return mChannel.getId() == 0 ? mService.getSession().getPermissions()
-                                         : mChannel.getPermissions();
+                    : mChannel.getPermissions();
         }
         return 0;
     }

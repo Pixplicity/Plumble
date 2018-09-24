@@ -17,10 +17,7 @@
 
 package com.morlunk.mumbleclient.channel.comment;
 
-import android.os.RemoteException;
-
 import com.morlunk.jumble.IJumbleService;
-import com.morlunk.jumble.model.Channel;
 import com.morlunk.jumble.model.IChannel;
 import com.morlunk.jumble.util.JumbleObserver;
 
@@ -36,7 +33,7 @@ public class ChannelDescriptionFragment extends AbstractCommentFragment {
         service.registerObserver(new JumbleObserver() {
             @Override
             public void onChannelStateUpdated(IChannel channel) {
-                if(channel.getId() == getChannelId() &&
+                if (channel.getId() == getChannelId() &&
                         channel.getDescription() != null) {
                     loadComment(channel.getDescription());
                     service.unregisterObserver(this);

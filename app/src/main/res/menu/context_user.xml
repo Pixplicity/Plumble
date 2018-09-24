@@ -19,72 +19,86 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/context_kick"
-        android:title="@string/user_menu_kick"
+
+    <item
+        android:id="@+id/context_kick"
         android:icon="@drawable/ic_action_delete_dark"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_ban"
-        android:title="@string/user_menu_ban"
+        android:title="@string/user_menu_kick"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_ban"
         android:icon="@drawable/ic_action_error"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_mute"
-        android:title="@string/user_menu_mute"
+        android:title="@string/user_menu_ban"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_mute"
+        android:checkable="true"
         android:icon="@drawable/ic_action_microphone"
+        android:title="@string/user_menu_mute"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_deafen"
         android:checkable="true"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_deafen"
-        android:title="@string/user_menu_deafen"
         android:icon="@drawable/ic_action_headphones"
-        android:checkable="true"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_move"
-        android:title="@string/user_menu_move"
+        android:title="@string/user_menu_deafen"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_move"
         android:icon="@drawable/ic_action_move"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_priority"
-        android:title="@string/user_menu_priority_speaker"
+        android:title="@string/user_menu_move"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_priority"
+        android:checkable="true"
         android:icon="@drawable/ic_action_audio"
+        android:title="@string/user_menu_priority_speaker"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_local_mute"
         android:checkable="true"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_local_mute"
-        android:title="@string/user_menu_local_mute"
         android:icon="@drawable/ic_action_audio_muted"
+        android:title="@string/user_menu_local_mute"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_ignore_messages"
         android:checkable="true"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_ignore_messages"
-        android:title="@string/user_menu_ignore_messages"
         android:icon="@drawable/ic_action_bad"
-        android:checkable="true"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_view_comment"
+        android:title="@string/user_menu_ignore_messages"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_view_comment"
+        android:icon="@drawable/ic_action_comment"
         android:title="@string/user_menu_view_comment"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_change_comment"
         android:icon="@drawable/ic_action_comment"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_change_comment"
         android:title="@string/user_menu_change_comment"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/context_reset_comment"
         android:icon="@drawable/ic_action_comment"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/context_reset_comment"
         android:title="@string/user_menu_reset_comment"
-        android:icon="@drawable/ic_action_comment"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
+
     <!--<item android:id="@+id/context_info"-->
-        <!--android:title="@string/user_menu_information"-->
-        <!--android:icon="@drawable/ic_action_info_dark"/>-->
-    <item android:id="@+id/context_register"
-        android:title="@string/user_menu_register"
+    <!--android:title="@string/user_menu_information"-->
+    <!--android:icon="@drawable/ic_action_info_dark"/>-->
+
+    <item
+        android:id="@+id/context_register"
         android:icon="@drawable/ic_registered"
-        app:showAsAction="never"
-        />
+        android:title="@string/user_menu_register"
+        app:showAsAction="never" />
+
 </menu>

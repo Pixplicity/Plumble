@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Andrew Comminos
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -17,6 +16,7 @@
   -->
 
 <resources>
+
     <string name="wizard_next">Next</string>
     <string name="wizard_back">Back</string>
     <string name="wizard_cancel">Cancel</string>
@@ -34,4 +34,5 @@
 
     <!-- General settings -->
     <string name="wizard_general_title">Useful Options</string>
+
 </resources>

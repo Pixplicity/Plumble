@@ -33,21 +33,6 @@ import com.morlunk.mumbleclient.R;
  */
 public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
 
-    /**
-     * Provides context for the drawer module.
-     */
-    public interface DrawerDataProvider {
-
-        /**
-         * @return true if connected, false otherwise.
-         */
-        public boolean isConnected();
-        /**
-         * @return The name of the connected server. If not connected, then null.
-         */
-        public String getConnectedServerName();
-    }
-
     // Drawer rows, integer value is id
     public static final int HEADER_CONNECTED_SERVER = 0;
     public static final int ITEM_SERVER = 1;
@@ -56,43 +41,15 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
     public static final int ITEM_ACCESS_TOKENS = 4;
     public static final int HEADER_SERVERS = 5;
     public static final int ITEM_FAVOURITES = 6;
-//    public static final int ITEM_LAN = 7;
+    //    public static final int ITEM_LAN = 7;
     public static final int ITEM_PUBLIC = 8;
     public static final int HEADER_GENERAL = 9;
     public static final int ITEM_SETTINGS = 10;
-
     private static final int HEADER_TYPE = 0;
     private static final int ITEM_TYPE = 1;
+    private DrawerDataProvider mProvider;
 
     // TODO clean this up.
-
-    public static class DrawerRow {
-        int id;
-        String title;
-
-        private DrawerRow(int id, String title) {
-            this.id = id;
-            this.title = title;
-        }
-    }
-
-    public static class DrawerHeader extends DrawerRow {
-
-        public DrawerHeader(int id, String title) {
-            super(id, title);
-        }
-    }
-
-    public static class DrawerItem extends DrawerRow {
-        int icon;
-
-        public DrawerItem(int id, String title, int icon) {
-            super(id, title);
-            this.icon = icon;
-        }
-    }
-
-    private DrawerDataProvider mProvider;
 
     public DrawerAdapter(Context context, DrawerDataProvider provider) {
         super(context, 0);
@@ -114,21 +71,21 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         int viewType = getItemViewType(position);
-        if(v == null) {
-            if(viewType == HEADER_TYPE)
+        if (v == null) {
+            if (viewType == HEADER_TYPE)
                 v = LayoutInflater.from(getContext()).inflate(R.layout.list_drawer_header, parent, false);
-            else if(viewType == ITEM_TYPE)
+            else if (viewType == ITEM_TYPE)
                 v = LayoutInflater.from(getContext()).inflate(R.layout.list_drawer_item, parent, false);
 
         }
 
-        if(viewType == HEADER_TYPE) {
+        if (viewType == HEADER_TYPE) {
             DrawerHeader header = (DrawerHeader) getItem(position);
             TextView title = (TextView) v.findViewById(R.id.drawer_header_title);
 
-            switch((int) getItemId(position)) {
+            switch ((int) getItemId(position)) {
                 case HEADER_CONNECTED_SERVER:
-                    if(mProvider.isConnected()) {
+                    if (mProvider.isConnected()) {
                         title.setText(mProvider.getConnectedServerName());
                         break;
                     }
@@ -136,7 +93,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
                     title.setText(header.title);
                     break;
             }
-        } else if(viewType == ITEM_TYPE) {
+        } else if (viewType == ITEM_TYPE) {
             DrawerItem item = (DrawerItem) getItem(position);
             TextView title = (TextView) v.findViewById(R.id.drawer_item_title);
             ImageView icon = (ImageView) v.findViewById(R.id.drawer_item_icon);
@@ -163,9 +120,9 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
     }
 
     public DrawerRow getItemWithId(int id) {
-        for(int x=0;x<getCount();x++) {
+        for (int x = 0; x < getCount(); x++) {
             DrawerRow row = getItem(x);
-            if(row.id == id) return row;
+            if (row.id == id) return row;
         }
         return null;
     }
@@ -173,7 +130,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
     @Override
     public boolean isEnabled(int position) {
         int viewType = getItemViewType(position);
-        if(viewType == ITEM_TYPE) {
+        if (viewType == ITEM_TYPE) {
             switch ((int) getItemId(position)) {
                 case ITEM_SERVER:
                 case ITEM_INFO:
@@ -192,9 +149,9 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
     @Override
     public int getItemViewType(int position) {
         Object item = getItem(position);
-        if(item instanceof DrawerHeader)
+        if (item instanceof DrawerHeader)
             return HEADER_TYPE;
-        else if(item instanceof DrawerItem)
+        else if (item instanceof DrawerItem)
             return ITEM_TYPE;
         return ITEM_TYPE;
     }
@@ -202,5 +159,47 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerRow> {
     @Override
     public int getViewTypeCount() {
         return 2;
+    }
+
+    /**
+     * Provides context for the drawer module.
+     */
+    public interface DrawerDataProvider {
+
+        /**
+         * @return true if connected, false otherwise.
+         */
+        boolean isConnected();
+
+        /**
+         * @return The name of the connected server. If not connected, then null.
+         */
+        String getConnectedServerName();
+    }
+
+    public static class DrawerRow {
+        int id;
+        String title;
+
+        private DrawerRow(int id, String title) {
+            this.id = id;
+            this.title = title;
+        }
+    }
+
+    public static class DrawerHeader extends DrawerRow {
+
+        public DrawerHeader(int id, String title) {
+            super(id, title);
+        }
+    }
+
+    public static class DrawerItem extends DrawerRow {
+        int icon;
+
+        public DrawerItem(int id, String title, int icon) {
+            super(id, title);
+            this.icon = icon;
+        }
     }
 }

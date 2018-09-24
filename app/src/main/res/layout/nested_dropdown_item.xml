@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2014 Andrew Comminos
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -32,21 +31,21 @@
         android:id="@+id/channel_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
         android:gravity="center|left"
-        android:text="@string/app_name"
-        android:textColor="#FFFFFF"
         android:lines="2"
-    	android:ellipsize="marquee"
-    	android:layout_weight="1"/>
-    
+        android:text="@string/app_name"
+        android:textColor="#FFFFFF" />
+
     <TextView
         android:id="@+id/channel_count"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textColor="#FFFFFF"
+        android:layout_gravity="right"
+        android:gravity="center|right"
         android:lines="1"
         android:paddingLeft="5dp"
-        android:gravity="center|right"
-        android:layout_gravity="right"/>
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

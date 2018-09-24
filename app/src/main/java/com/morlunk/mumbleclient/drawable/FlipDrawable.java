@@ -36,7 +36,7 @@ public class FlipDrawable extends LayerDrawable implements ValueAnimator.Animato
     private float mRotate;
 
     public FlipDrawable(Drawable from, Drawable to) {
-        super(new Drawable[] { from, to });
+        super(new Drawable[]{from, to});
         mFrom = from;
         mTo = to;
         mCamera = new Camera();
@@ -45,8 +45,8 @@ public class FlipDrawable extends LayerDrawable implements ValueAnimator.Animato
 
     @Override
     public void draw(Canvas canvas) {
-        float centerX = getIntrinsicWidth()/2;
-        float centerY = getIntrinsicHeight()/2;
+        float centerX = getIntrinsicWidth() / 2;
+        float centerY = getIntrinsicHeight() / 2;
         boolean flipped = mRotate > 90;
         mCamera.save();
         mCamera.translate(centerX, centerY, 0);
@@ -73,6 +73,7 @@ public class FlipDrawable extends LayerDrawable implements ValueAnimator.Animato
 
     /**
      * Starts the flip animation.
+     *
      * @param duration The duration in ms for the flip to occur.
      */
     public void start(long duration) {

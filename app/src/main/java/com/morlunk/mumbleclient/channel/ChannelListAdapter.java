@@ -66,7 +66,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
      * Time (in ms) to run the flip animation for.
      */
     private static final long FLIP_DURATION = 350;
-
+    private final FragmentManager mFragmentManager;
     private Context mContext;
     private IJumbleService mService;
     private PlumbleDatabase mDatabase;
@@ -80,7 +80,6 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
     private OnUserClickListener mUserClickListener;
     private OnChannelClickListener mChannelClickListener;
     private boolean mShowChannelUserCount;
-    private final FragmentManager mFragmentManager;
 
     public ChannelListAdapter(Context context, IJumbleService service, PlumbleDatabase database,
                               FragmentManager fragmentManager, boolean showPinnedOnly,
@@ -93,7 +92,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
         mShowChannelUserCount = showChannelUserCount;
 
         mRootChannels = new ArrayList<Integer>();
-        if(showPinnedOnly) {
+        if (showPinnedOnly) {
             mRootChannels = mDatabase.getPinnedChannels(mService.getTargetServer().getId());
         } else {
             mRootChannels.add(0);
@@ -233,8 +232,8 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
             uvh.mUserTalkHighlight.setImageDrawable(getTalkStateDrawable(user));
             uvh.mTalkingIndicator.setAlpha(
                     (user.getTalkState() == TalkState.TALKING ||
-                     user.getTalkState() == TalkState.WHISPERING ||
-                     user.getTalkState() == TalkState.SHOUTING) ? 1 : 0);
+                            user.getTalkState() == TalkState.WHISPERING ||
+                            user.getTalkState() == TalkState.SHOUTING) ? 1 : 0);
 
             // Pad the view depending on channel's nested level.
             DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
@@ -310,6 +309,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
 
     /**
      * Updates the user's state icon with a nice animation.
+     *
      * @param user The user to update.
      * @param view The view containing this adapter.
      */
@@ -331,6 +331,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
 
     /**
      * Updates the user's talking indicator.
+     *
      * @param user The user to update.
      * @param view The view containing this adapter.
      */
@@ -344,7 +345,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
             float strokeWidth = uvh.mTalkingIndicator.getStrokeWidth();
             float width = uvh.mUserTalkHighlight.getWidth();
             // Scale down the user's avatar to show the talking indicator.
-            float scale = talking ? (1 - (strokeWidth * 2)/width) : 1;
+            float scale = talking ? (1 - (strokeWidth * 2) / width) : 1;
             uvh.mTalkingIndicator.animate()
                     .alpha(talking ? 1 : 0)
                     .setDuration(200);
@@ -427,10 +428,11 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
 
     /**
      * Recursively creates a list of {@link Node}s representing the channel hierarchy.
-     * @param parent The parent node to propagate under.
+     *
+     * @param parent  The parent node to propagate under.
      * @param channel The parent channel.
-     * @param depth The current depth of the subtree.
-     * @param nodes An accumulator to store generated nodes into.
+     * @param depth   The current depth of the subtree.
+     * @param nodes   An accumulator to store generated nodes into.
      */
     private void constructNodes(Node parent, IChannel channel, int depth,
                                 List<Node> nodes) {
@@ -457,6 +459,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
 
     /**
      * Changes the service backing the adapter. Updates the list as well.
+     *
      * @param service The new service to retrieve channels from.
      */
     public void setService(IJumbleService service) {
@@ -496,7 +499,7 @@ public class ChannelListAdapter extends RecyclerView.Adapter implements UserMenu
     private static class UserViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout mUserHolder;
         public TextView mUserName;
-//        public ImageView mUserAvatar;
+        //        public ImageView mUserAvatar;
         public ImageView mUserTalkHighlight;
         public ImageView mMoreButton;
         public TalkingIndicatorView mTalkingIndicator;

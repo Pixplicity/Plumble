@@ -18,36 +18,23 @@
 package com.morlunk.mumbleclient.preference;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.text.InputType;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.Settings;
-import com.morlunk.mumbleclient.util.PlumbleTrustStore;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import info.guardianproject.netcipher.proxy.OrbotHelper;
@@ -66,6 +53,53 @@ public class Preferences extends PreferenceActivity {
 
     private static final String USE_TOR_KEY = "useTor";
     private static final String VERSION_KEY = "version";
+
+    private static void configureOrbotPreferences(PreferenceScreen screen) {
+        Preference useOrbotPreference = screen.findPreference(USE_TOR_KEY);
+        useOrbotPreference.setEnabled(OrbotHelper.isOrbotInstalled(screen.getContext()));
+    }
+
+    private static void configureAudioPreferences(final PreferenceScreen screen) {
+        ListPreference inputPreference = (ListPreference) screen.findPreference(Settings.PREF_INPUT_METHOD);
+        inputPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                updateAudioDependents(screen, (String) newValue);
+                return true;
+            }
+        });
+
+        // Scan each bitrate and determine if the device supports it
+        ListPreference inputQualityPreference = (ListPreference) screen.findPreference(Settings.PREF_INPUT_RATE);
+        String[] bitrateNames = new String[inputQualityPreference.getEntryValues().length];
+        for (int x = 0; x < bitrateNames.length; x++) {
+            int bitrate = Integer.parseInt(inputQualityPreference.getEntryValues()[x].toString());
+            boolean supported = AudioRecord.getMinBufferSize(bitrate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT) > 0;
+            bitrateNames[x] = bitrate + "Hz" + (supported ? "" : " (unsupported)");
+        }
+        inputQualityPreference.setEntries(bitrateNames);
+
+        updateAudioDependents(screen, inputPreference.getValue());
+    }
+
+    private static void updateAudioDependents(PreferenceScreen screen, String inputMethod) {
+        PreferenceCategory pttCategory = (PreferenceCategory) screen.findPreference("ptt_settings");
+        PreferenceCategory vadCategory = (PreferenceCategory) screen.findPreference("vad_settings");
+        pttCategory.setEnabled(Settings.ARRAY_INPUT_METHOD_PTT.equals(inputMethod));
+        vadCategory.setEnabled(Settings.ARRAY_INPUT_METHOD_VOICE.equals(inputMethod));
+    }
+
+    private static void configureAboutPreferences(Context context, PreferenceScreen screen) {
+        String version = "Unknown";
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            version = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        Preference versionPreference = screen.findPreference(VERSION_KEY);
+        versionPreference.setSummary(version);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -103,53 +137,6 @@ public class Preferences extends PreferenceActivity {
     @Override
     protected boolean isValidFragment(String fragmentName) {
         return PlumblePreferenceFragment.class.getName().equals(fragmentName);
-    }
-
-    private static void configureOrbotPreferences(PreferenceScreen screen) {
-        Preference useOrbotPreference = screen.findPreference(USE_TOR_KEY);
-        useOrbotPreference.setEnabled(OrbotHelper.isOrbotInstalled(screen.getContext()));
-    }
-
-    private static void configureAudioPreferences(final PreferenceScreen screen) {
-        ListPreference inputPreference = (ListPreference) screen.findPreference(Settings.PREF_INPUT_METHOD);
-        inputPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                updateAudioDependents(screen, (String) newValue);
-                return true;
-            }
-        });
-
-        // Scan each bitrate and determine if the device supports it
-        ListPreference inputQualityPreference = (ListPreference) screen.findPreference(Settings.PREF_INPUT_RATE);
-        String[] bitrateNames = new String[inputQualityPreference.getEntryValues().length];
-        for(int x=0;x<bitrateNames.length;x++) {
-            int bitrate = Integer.parseInt(inputQualityPreference.getEntryValues()[x].toString());
-            boolean supported = AudioRecord.getMinBufferSize(bitrate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT) > 0;
-            bitrateNames[x] = bitrate+"Hz" + (supported ? "" : " (unsupported)");
-        }
-        inputQualityPreference.setEntries(bitrateNames);
-
-        updateAudioDependents(screen, inputPreference.getValue());
-    }
-
-    private static void updateAudioDependents(PreferenceScreen screen, String inputMethod) {
-        PreferenceCategory pttCategory = (PreferenceCategory) screen.findPreference("ptt_settings");
-        PreferenceCategory vadCategory = (PreferenceCategory) screen.findPreference("vad_settings");
-        pttCategory.setEnabled(Settings.ARRAY_INPUT_METHOD_PTT.equals(inputMethod));
-        vadCategory.setEnabled(Settings.ARRAY_INPUT_METHOD_VOICE.equals(inputMethod));
-    }
-
-    private static void configureAboutPreferences(Context context, PreferenceScreen screen) {
-        String version = "Unknown";
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            version = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        Preference versionPreference = screen.findPreference(VERSION_KEY);
-        versionPreference.setSummary(version);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

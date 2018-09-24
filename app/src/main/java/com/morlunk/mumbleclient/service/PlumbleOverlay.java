@@ -42,7 +42,18 @@ public class PlumbleOverlay {
 
     public static final int DEFAULT_WIDTH = 200;
     public static final int DEFAULT_HEIGHT = 240;
-
+    private View mOverlayView;
+    private ListView mOverlayList;
+    private ChannelAdapter mChannelAdapter;
+    private ImageView mTalkButton;
+    //    private ImageView mToggleButton;
+    private ImageView mCloseButton;
+    private ImageView mDragButton;
+    private View mTitleView;
+    private WindowManager.LayoutParams mOverlayParams;
+    private boolean mShown = false;
+    private PlumbleService mService;
+//    private boolean mShowChat = false;
     private JumbleObserver mObserver = new JumbleObserver() {
         @Override
         public void onUserTalkStateUpdated(IUser user) {
@@ -51,34 +62,20 @@ public class PlumbleOverlay {
 
         @Override
         public void onUserStateUpdated(IUser user) {
-            if(user.getChannel() != null &&
+            if (user.getChannel() != null &&
                     user.getChannel().equals(mService.getSessionChannel()))
                 mChannelAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onUserJoinedChannel(IUser user, IChannel newChannel, IChannel oldChannel) {
-            if(user.getSession() == mService.getSessionId()) // Session user has changed channels
+            if (user.getSession() == mService.getSessionId()) // Session user has changed channels
                 mChannelAdapter.setChannel(mService.getSessionChannel());
-            else if(newChannel.getId() == mService.getSessionChannel().getId() ||
+            else if (newChannel.getId() == mService.getSessionChannel().getId() ||
                     oldChannel.getId() == mService.getSessionChannel().getId())
                 mChannelAdapter.notifyDataSetChanged();
         }
     };
-
-    private View mOverlayView;
-    private ListView mOverlayList;
-    private ChannelAdapter mChannelAdapter;
-    private ImageView mTalkButton;
-//    private ImageView mToggleButton;
-    private ImageView mCloseButton;
-    private ImageView mDragButton;
-    private View mTitleView;
-    private WindowManager.LayoutParams mOverlayParams;
-    private boolean mShown = false;
-//    private boolean mShowChat = false;
-
-    private PlumbleService mService;
 
     public PlumbleOverlay(PlumbleService service) {
         mService = service;
@@ -97,11 +94,11 @@ public class PlumbleOverlay {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(MotionEvent.ACTION_DOWN == event.getAction()) {
+                if (MotionEvent.ACTION_DOWN == event.getAction()) {
                     mInitialX = event.getRawX() - mOverlayParams.x;
                     mInitialY = event.getRawY() - mOverlayParams.y;
                     return true;
-                } else if(MotionEvent.ACTION_MOVE == event.getAction()) {
+                } else if (MotionEvent.ACTION_MOVE == event.getAction()) {
                     mOverlayParams.x = (int) (event.getRawX() - mInitialX);
                     mOverlayParams.y = (int) (event.getRawY() - mInitialY);
                     mWindowManager.updateViewLayout(mOverlayView, mOverlayParams);
@@ -157,10 +154,10 @@ public class PlumbleOverlay {
         mTalkButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(MotionEvent.ACTION_DOWN == event.getAction()) {
+                if (MotionEvent.ACTION_DOWN == event.getAction()) {
                     mService.setTalkingState(true);
                     return true;
-                } else if(MotionEvent.ACTION_UP == event.getAction()) {
+                } else if (MotionEvent.ACTION_UP == event.getAction()) {
                     mService.setTalkingState(false);
                     return true;
                 }
@@ -180,8 +177,8 @@ public class PlumbleOverlay {
         });
 
         DisplayMetrics metrics = mService.getResources().getDisplayMetrics();
-        mOverlayParams = new WindowManager.LayoutParams((int)(DEFAULT_WIDTH*metrics.density),
-                (int)(DEFAULT_HEIGHT*metrics.density),
+        mOverlayParams = new WindowManager.LayoutParams((int) (DEFAULT_WIDTH * metrics.density),
+                (int) (DEFAULT_HEIGHT * metrics.density),
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
@@ -196,7 +193,7 @@ public class PlumbleOverlay {
     }
 
     public void show() {
-        if(mShown)
+        if (mShown)
             return;
         mShown = true;
         mChannelAdapter = new ChannelAdapter(mService, mService.getSessionChannel());
@@ -207,7 +204,7 @@ public class PlumbleOverlay {
     }
 
     public void hide() {
-        if(!mShown)
+        if (!mShown)
             return;
         mShown = false;
         mService.unregisterObserver(mObserver);

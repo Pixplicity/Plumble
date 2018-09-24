@@ -69,4 +69,5 @@
         android:paddingLeft="8dp"
         android:tint="?android:textColorSecondary"
         android:background="?attr/selectableItemBackgroundBorderless"/>
+
 </LinearLayout>

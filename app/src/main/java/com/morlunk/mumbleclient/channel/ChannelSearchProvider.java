@@ -27,16 +27,12 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 
 import com.morlunk.jumble.IJumbleService;
 import com.morlunk.jumble.IJumbleSession;
-import com.morlunk.jumble.JumbleService;
-import com.morlunk.jumble.model.Channel;
 import com.morlunk.jumble.model.IChannel;
 import com.morlunk.jumble.model.IUser;
-import com.morlunk.jumble.model.User;
 import com.morlunk.mumbleclient.Constants;
 import com.morlunk.mumbleclient.R;
 import com.morlunk.mumbleclient.service.PlumbleService;
@@ -46,60 +42,58 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChannelSearchProvider extends ContentProvider {
-	
-	public static final String INTENT_DATA_CHANNEL = "channel";
-	public static final String INTENT_DATA_USER = "user";
 
-    private IJumbleService mService;
+    public static final String INTENT_DATA_CHANNEL = "channel";
+    public static final String INTENT_DATA_USER = "user";
     private final Object mServiceLock = new Object();
-
-	private ServiceConnection mConn = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			mService = ((PlumbleService.PlumbleBinder) service).getService();
+    private IJumbleService mService;
+    private ServiceConnection mConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = ((PlumbleService.PlumbleBinder) service).getService();
             synchronized (mServiceLock) {
                 mServiceLock.notify();
             }
-		}
+        }
 
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mService = null;
-		}
-	};
-	
-	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+        }
+    };
 
-	@Override
-	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getType(Uri uri) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public boolean onCreate() {
-		return true;
-	}
-	
+    @Override
+    public Uri insert(Uri uri, ContentValues values) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Cursor query(Uri uri, String[] projection, String selection,
-			String[] selectionArgs, String sortOrder) {	
-		
-		// Try to connect to the service. Wait for conn to establish.
-		if(mService == null) {
-			Intent serviceIntent = new Intent(getContext(), PlumbleService.class);
-			getContext().bindService(serviceIntent, mConn, 0);
+    @Override
+    public boolean onCreate() {
+        return true;
+    }
+
+
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection,
+                        String[] selectionArgs, String sortOrder) {
+
+        // Try to connect to the service. Wait for conn to establish.
+        if (mService == null) {
+            Intent serviceIntent = new Intent(getContext(), PlumbleService.class);
+            getContext().bindService(serviceIntent, mConn, 0);
 
             synchronized (mServiceLock) {
                 try {
@@ -108,49 +102,50 @@ public class ChannelSearchProvider extends ContentProvider {
                     e.printStackTrace();
                 }
 
-                if(mService == null) {
+                if (mService == null) {
                     Log.v(Constants.TAG, "Failed to connect to service from search provider!");
                     return null;
                 }
             }
-		}
+        }
 
         if (!mService.isConnected())
             return null;
 
         IJumbleSession session = mService.getSession();
-		
-		String query = "";
-		for(int x=0;x<selectionArgs.length;x++) {
-			query += selectionArgs[x];
-			if(x != selectionArgs.length-1)
-				query += " ";
-		}
-		
-		query = query.toLowerCase(Locale.getDefault());
-		
-		MatrixCursor cursor = new MatrixCursor(new String[] { "_ID", SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA, SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_ICON_1, SearchManager.SUGGEST_COLUMN_TEXT_2, SearchManager.SUGGEST_COLUMN_INTENT_DATA });
+
+        String query = "";
+        for (int x = 0; x < selectionArgs.length; x++) {
+            query += selectionArgs[x];
+            if (x != selectionArgs.length - 1)
+                query += " ";
+        }
+
+        query = query.toLowerCase(Locale.getDefault());
+
+        MatrixCursor cursor = new MatrixCursor(new String[]{"_ID", SearchManager.SUGGEST_COLUMN_INTENT_EXTRA_DATA, SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_ICON_1, SearchManager.SUGGEST_COLUMN_TEXT_2, SearchManager.SUGGEST_COLUMN_INTENT_DATA});
 
         List<IChannel> channels = channelSearch(session.getRootChannel(), query);
         List<IUser> users = userSearch(session.getRootChannel(), query);
 
-        for(int x=0;x<channels.size();x++) {
+        for (int x = 0; x < channels.size(); x++) {
             IChannel channel = channels.get(x);
-            cursor.addRow(new Object[] { x, INTENT_DATA_CHANNEL, channel.getName(), R.drawable.ic_action_channels, getContext().getString(R.string.search_channel_users, channel.getSubchannelUserCount()), channel.getId() });
+            cursor.addRow(new Object[]{x, INTENT_DATA_CHANNEL, channel.getName(), R.drawable.ic_action_channels, getContext().getString(R.string.search_channel_users, channel.getSubchannelUserCount()), channel.getId()});
         }
 
-        for(int x=0;x<users.size();x++) {
+        for (int x = 0; x < users.size(); x++) {
             IUser user = users.get(x);
-            cursor.addRow(new Object[] { x, INTENT_DATA_USER, user.getName(), R.drawable.ic_action_user_dark, getContext().getString(R.string.user), user.getSession() });
+            cursor.addRow(new Object[]{x, INTENT_DATA_USER, user.getName(), R.drawable.ic_action_user_dark, getContext().getString(R.string.user), user.getSession()});
         }
-		return cursor;
-	}
+        return cursor;
+    }
 
     /**
      * Recursively searches the channel tree for a user with a name containing the given string,
      * ignoring case.
+     *
      * @param root The channel to recursively search for users within.
-     * @param str The string to match against the user's name. Case insensitive.
+     * @param str  The string to match against the user's name. Case insensitive.
      * @return A list of users whose names contain str.
      */
     private List<IUser> userSearch(IChannel root, String str) {
@@ -160,7 +155,7 @@ public class ChannelSearchProvider extends ContentProvider {
     }
 
     /**
-     * @see #userSearch(IChannel,String)
+     * @see #userSearch(IChannel, String)
      */
     private void userSearch(IChannel root, String str, List<IUser> users) {
         if (root == null) {
@@ -181,8 +176,9 @@ public class ChannelSearchProvider extends ContentProvider {
     /**
      * Recursively searches the channel tree for a channel with a name containing the given string,
      * ignoring case.
+     *
      * @param root The channel to recursively search for subchannels within.
-     * @param str The string to match against the channel's name. Case insensitive.
+     * @param str  The string to match against the channel's name. Case insensitive.
      * @return A list of channels whose names contain str.
      */
     private List<IChannel> channelSearch(IChannel root, String str) {
@@ -192,7 +188,7 @@ public class ChannelSearchProvider extends ContentProvider {
     }
 
     /**
-     * @see #channelSearch(IChannel,String)
+     * @see #channelSearch(IChannel, String)
      */
     private void channelSearch(IChannel root, String str, List<IChannel> channels) {
         if (root == null) {
@@ -209,11 +205,11 @@ public class ChannelSearchProvider extends ContentProvider {
         }
     }
 
-	@Override
-	public int update(Uri uri, ContentValues values, String selection,
-			String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int update(Uri uri, ContentValues values, String selection,
+                      String[] selectionArgs) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
 }

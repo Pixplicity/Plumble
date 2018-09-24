@@ -54,6 +54,11 @@ public class PlumbleReconnectNotification {
         }
     };
 
+    public PlumbleReconnectNotification(Context context, OnActionListener listener) {
+        mContext = context;
+        mListener = listener;
+    }
+
     public static PlumbleReconnectNotification show(Context context,
                                                     String error,
                                                     boolean autoReconnect,
@@ -61,11 +66,6 @@ public class PlumbleReconnectNotification {
         PlumbleReconnectNotification notification = new PlumbleReconnectNotification(context, listener);
         notification.show(error, autoReconnect);
         return notification;
-    }
-
-    public PlumbleReconnectNotification(Context context, OnActionListener listener) {
-        mContext = context;
-        mListener = listener;
     }
 
     public void show(String error, boolean autoReconnect) {
@@ -122,8 +122,10 @@ public class PlumbleReconnectNotification {
     }
 
     public interface OnActionListener {
-        public void onReconnectNotificationDismissed();
-        public void reconnect();
-        public void cancelReconnect();
+        void onReconnectNotificationDismissed();
+
+        void reconnect();
+
+        void cancelReconnect();
     }
 }

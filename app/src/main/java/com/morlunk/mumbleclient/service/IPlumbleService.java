@@ -8,9 +8,9 @@ import java.util.List;
  * Created by andrew on 28/02/17.
  */
 public interface IPlumbleService extends IJumbleService {
-    void setOverlayShown(boolean showOverlay);
-
     boolean isOverlayShown();
+
+    void setOverlayShown(boolean showOverlay);
 
     void clearChatNotifications();
 

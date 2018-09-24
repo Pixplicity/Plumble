@@ -20,7 +20,6 @@ package com.morlunk.mumbleclient;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.media.AudioManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -46,16 +45,23 @@ import java.util.Set;
 
 /**
  * Singleton settings class for universal access to the app's preferences.
+ *
  * @author morlunk
  */
 public class Settings {
     public static final String PREF_INPUT_METHOD = "audioInputMethod";
     public static final Set<String> ARRAY_INPUT_METHODS;
-    /** Voice activity transmits depending on the amplitude of user input. */
+    /**
+     * Voice activity transmits depending on the amplitude of user input.
+     */
     public static final String ARRAY_INPUT_METHOD_VOICE = "voiceActivity";
-    /** Push to talk transmits on command. */
+    /**
+     * Push to talk transmits on command.
+     */
     public static final String ARRAY_INPUT_METHOD_PTT = "ptt";
-    /** Continuous transmits always. */
+    /**
+     * Continuous transmits always.
+     */
     public static final String ARRAY_INPUT_METHOD_CONTINUOUS = "continuous";
 
     public static final String PREF_THRESHOLD = "vadThreshold";
@@ -108,13 +114,18 @@ public class Settings {
     public static final String PREF_PTT_BUTTON_HEIGHT = "pttButtonHeight";
     public static final int DEFAULT_PTT_BUTTON_HEIGHT = 150;
 
-    /** @deprecated use {@link #PREF_CERT_ID } */
+    /**
+     * @deprecated use {@link #PREF_CERT_ID }
+     */
     public static final String PREF_CERT_DEPRECATED = "certificatePath";
-    /** @deprecated use {@link #PREF_CERT_ID } */
+    /**
+     * @deprecated use {@link #PREF_CERT_ID }
+     */
     public static final String PREF_CERT_PASSWORD_DEPRECATED = "certificatePassword";
 
     /**
      * The DB identifier for the default certificate.
+     *
      * @see com.morlunk.mumbleclient.db.DatabaseCertificate
      */
     public static final String PREF_CERT_ID = "certificateId";
@@ -176,10 +187,6 @@ public class Settings {
 
     private final SharedPreferences preferences;
 
-    public static Settings getInstance(Context context) {
-        return new Settings(context);
-    }
-
     private Settings(Context ctx) {
         preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
 
@@ -228,17 +235,32 @@ public class Settings {
         }
     }
 
+    public static Settings getInstance(Context context) {
+        return new Settings(context);
+    }
+
     public String getInputMethod() {
         String method = preferences.getString(PREF_INPUT_METHOD, ARRAY_INPUT_METHOD_VOICE);
-        if(!ARRAY_INPUT_METHODS.contains(method)) {
+        if (!ARRAY_INPUT_METHODS.contains(method)) {
             // Set default method for users who used to use handset mode before removal.
             method = ARRAY_INPUT_METHOD_VOICE;
         }
         return method;
     }
 
+    public void setInputMethod(String inputMethod) {
+        if (ARRAY_INPUT_METHOD_VOICE.equals(inputMethod) ||
+                ARRAY_INPUT_METHOD_PTT.equals(inputMethod) ||
+                ARRAY_INPUT_METHOD_CONTINUOUS.equals(inputMethod)) {
+            preferences.edit().putString(PREF_INPUT_METHOD, inputMethod).apply();
+        } else {
+            throw new RuntimeException("Invalid input method " + inputMethod);
+        }
+    }
+
     /**
      * Converts the preference input method value to the one used to connect to a server via Jumble.
+     *
      * @return An input method value used to instantiate a Jumble service.
      */
     public int getJumbleInputMethod() {
@@ -253,16 +275,6 @@ public class Settings {
         throw new RuntimeException("Could not convert input method '" + inputMethod + "' to a Jumble input method id!");
     }
 
-    public void setInputMethod(String inputMethod) {
-        if(ARRAY_INPUT_METHOD_VOICE.equals(inputMethod) ||
-                ARRAY_INPUT_METHOD_PTT.equals(inputMethod) ||
-                ARRAY_INPUT_METHOD_CONTINUOUS.equals(inputMethod)) {
-            preferences.edit().putString(PREF_INPUT_METHOD, inputMethod).apply();
-        } else {
-            throw new RuntimeException("Invalid input method " + inputMethod);
-        }
-    }
-
     public int getInputSampleRate() {
         return Integer.parseInt(preferences.getString(Settings.PREF_INPUT_RATE, DEFAULT_RATE));
     }
@@ -272,11 +284,11 @@ public class Settings {
     }
 
     public float getAmplitudeBoostMultiplier() {
-        return (float)preferences.getInt(Settings.PREF_AMPLITUDE_BOOST, DEFAULT_AMPLITUDE_BOOST)/100;
+        return (float) preferences.getInt(Settings.PREF_AMPLITUDE_BOOST, DEFAULT_AMPLITUDE_BOOST) / 100;
     }
 
     public float getDetectionThreshold() {
-        return (float)preferences.getInt(PREF_THRESHOLD, DEFAULT_THRESHOLD)/100;
+        return (float) preferences.getInt(PREF_THRESHOLD, DEFAULT_THRESHOLD) / 100;
     }
 
     public int getPushToTalkKey() {
@@ -289,6 +301,7 @@ public class Settings {
 
     /**
      * Returns whether or not the hot corner is enabled.
+     *
      * @return true if a hot corner should be shown.
      */
     public boolean isHotCornerEnabled() {
@@ -297,17 +310,18 @@ public class Settings {
 
     /**
      * Returns the view gravity of the hot corner, or 0 if hot corner is disabled.
+     *
      * @return A {@link android.view.Gravity} value, or 0 if disabled.
      */
     public int getHotCornerGravity() {
         String hc = getHotCorner();
-        if(ARRAY_HOT_CORNER_BOTTOM_LEFT.equals(hc)) {
+        if (ARRAY_HOT_CORNER_BOTTOM_LEFT.equals(hc)) {
             return Gravity.LEFT | Gravity.BOTTOM;
-        } else if(ARRAY_HOT_CORNER_BOTTOM_RIGHT.equals(hc)) {
+        } else if (ARRAY_HOT_CORNER_BOTTOM_RIGHT.equals(hc)) {
             return Gravity.RIGHT | Gravity.BOTTOM;
-        } else if(ARRAY_HOT_CORNER_TOP_LEFT.equals(hc)) {
+        } else if (ARRAY_HOT_CORNER_TOP_LEFT.equals(hc)) {
             return Gravity.LEFT | Gravity.TOP;
-        } else if(ARRAY_HOT_CORNER_TOP_RIGHT.equals(hc)) {
+        } else if (ARRAY_HOT_CORNER_TOP_RIGHT.equals(hc)) {
             return Gravity.RIGHT | Gravity.TOP;
         }
         return 0;
@@ -318,13 +332,13 @@ public class Settings {
      */
     public int getTheme() {
         String theme = preferences.getString(PREF_THEME, ARRAY_THEME_LIGHT);
-        if(ARRAY_THEME_LIGHT.equals(theme))
+        if (ARRAY_THEME_LIGHT.equals(theme))
             return R.style.Theme_Plumble;
-        else if(ARRAY_THEME_DARK.equals(theme))
+        else if (ARRAY_THEME_DARK.equals(theme))
             return R.style.Theme_Plumble_Dark;
-        else if(ARRAY_THEME_SOLARIZED_LIGHT.equals(theme))
+        else if (ARRAY_THEME_SOLARIZED_LIGHT.equals(theme))
             return R.style.Theme_Plumble_Solarized_Light;
-        else if(ARRAY_THEME_SOLARIZED_DARK.equals(theme))
+        else if (ARRAY_THEME_SOLARIZED_DARK.equals(theme))
             return R.style.Theme_Plumble_Solarized_Dark;
         return -1;
     }
@@ -337,6 +351,7 @@ public class Settings {
     /**
      * Returns a database identifier for the default certificate, or a negative number if there is
      * no default certificate set.
+     *
      * @return The default certificate's ID, or a negative integer if not set.
      */
     public long getDefaultCertificate() {
@@ -395,6 +410,10 @@ public class Settings {
         return preferences.getBoolean(PREF_FIRST_RUN, DEFAULT_FIRST_RUN);
     }
 
+    public void setFirstRun(boolean run) {
+        preferences.edit().putBoolean(PREF_FIRST_RUN, run).apply();
+    }
+
     public boolean shouldLoadExternalImages() {
         return preferences.getBoolean(PREF_LOAD_IMAGES, DEFAULT_LOAD_IMAGES);
     }
@@ -404,10 +423,6 @@ public class Settings {
         editor.putBoolean(PREF_MUTED, muted || deafened);
         editor.putBoolean(PREF_DEAFENED, deafened);
         editor.apply();
-    }
-
-    public void setFirstRun(boolean run) {
-        preferences.edit().putBoolean(PREF_FIRST_RUN, run).apply();
     }
 
     public int getFramesPerPacket() {

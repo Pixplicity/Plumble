@@ -18,6 +18,11 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_server_favourite" android:title="@string/addFavorite"/>
+
+    <item
+        android:id="@+id/menu_server_favourite"
+        android:title="@string/addFavorite" />
+
     <!--<item android:id="@+id/menu_server_share" android:title="@string/share"></item>-->
+
 </menu>

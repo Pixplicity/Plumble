@@ -23,5 +23,5 @@ import com.morlunk.jumble.model.IChannel;
  * Created by andrew on 20/10/14.
  */
 public interface OnChannelClickListener {
-    public void onChannelClick(IChannel channel);
+    void onChannelClick(IChannel channel);
 }

@@ -40,6 +40,7 @@ public class PlumbleTrustStore {
 
     /**
      * Loads the app's trust store of certificates.
+     *
      * @return A loaded KeyStore with the user's trusted certificates.
      */
     public static KeyStore getTrustStore(Context context) throws CertificateException, NoSuchAlgorithmException, IOException, KeyStoreException {
@@ -66,11 +67,12 @@ public class PlumbleTrustStore {
 
     /**
      * Gets the app's trust store path.
+     *
      * @return null if the store has not yet been initialized, or the absolute path if it has.
      */
     public static String getTrustStorePath(Context context) {
         File trustPath = new File(context.getFilesDir(), STORE_FILE);
-        if(trustPath.exists()) return trustPath.getAbsolutePath();
+        if (trustPath.exists()) return trustPath.getAbsolutePath();
         return null;
     }
 

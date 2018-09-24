@@ -17,9 +17,6 @@
 
 package com.morlunk.mumbleclient.util;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -30,14 +27,9 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 
 import com.morlunk.mumbleclient.R;
-
-import java.util.Objects;
 
 /**
  * Created by andrew on 30/11/15.
@@ -46,9 +38,13 @@ import java.util.Objects;
 public class TalkingIndicatorView extends View implements ValueAnimator.AnimatorUpdateListener {
     private static final float OVERSHOOT_TENSION = 3.5f;
 
-    /** The offset of the arc from the origin, mod 360. */
+    /**
+     * The offset of the arc from the origin, mod 360.
+     */
     private float mArcOffset;
-    /** The length of the arc, in radians. */
+    /**
+     * The length of the arc, in radians.
+     */
     private float mArcLength;
     private float mArcWidth;
     private Paint mArcPaint;
@@ -56,7 +52,7 @@ public class TalkingIndicatorView extends View implements ValueAnimator.Animator
 
     public TalkingIndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray style = context.obtainStyledAttributes(attrs, new int[] {
+        TypedArray style = context.obtainStyledAttributes(attrs, new int[]{
                 R.attr.arcColor,
                 R.attr.arcWidth,
                 R.attr.arcLength,

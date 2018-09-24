@@ -24,6 +24,7 @@ import java.net.URI;
 public class HtmlUtils {
     /**
      * Tries to get the link's hostname, returns `null` if not a valid URL.
+     *
      * @param link link to get the hostname of
      * @return String?
      */

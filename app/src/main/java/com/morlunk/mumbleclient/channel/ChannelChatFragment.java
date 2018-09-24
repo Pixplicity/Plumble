@@ -20,7 +20,6 @@ package com.morlunk.mumbleclient.channel;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -66,8 +65,12 @@ import java.util.regex.Pattern;
 
 public class ChannelChatFragment extends JumbleServiceFragment implements ChatTargetProvider.OnChatTargetSelectedListener {
     private static final Pattern LINK_PATTERN = Pattern.compile("(https?://\\S+)");
-
-	private IJumbleObserver mServiceObserver = new JumbleObserver() {
+    private ListView mChatList;
+    private ChannelChatAdapter mChatAdapter;
+    private EditText mChatTextEdit;
+    private ImageButton mSendButton;
+    private ChatTargetProvider mTargetProvider;
+    private IJumbleObserver mServiceObserver = new JumbleObserver() {
 
         @Override
         public void onMessageLogged(IMessage message) {
@@ -104,12 +107,6 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
         }
     };
 
-    private ListView mChatList;
-    private ChannelChatAdapter mChatAdapter;
-	private EditText mChatTextEdit;
-	private ImageButton mSendButton;
-    private ChatTargetProvider mTargetProvider;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +119,7 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
         try {
             mTargetProvider = (ChatTargetProvider) getParentFragment();
         } catch (ClassCastException e) {
-            throw new ClassCastException(getParentFragment().toString()+" must implement ChatTargetProvider");
+            throw new ClassCastException(getParentFragment().toString() + " must implement ChatTargetProvider");
         }
     }
 
@@ -139,29 +136,29 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
     }
 
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_chat, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
         mChatList = (ListView) view.findViewById(R.id.chat_list);
-		mChatTextEdit = (EditText) view.findViewById(R.id.chatTextEdit);
-		
-		mSendButton = (ImageButton) view.findViewById(R.id.chatTextSend);
-		mSendButton.setOnClickListener(new OnClickListener() {
+        mChatTextEdit = (EditText) view.findViewById(R.id.chatTextEdit);
+
+        mSendButton = (ImageButton) view.findViewById(R.id.chatTextSend);
+        mSendButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
             }
         });
-		
-		mChatTextEdit.setOnEditorActionListener(new OnEditorActionListener() {
+
+        mChatTextEdit.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 sendMessage();
                 return true;
             }
         });
-		
-		mChatTextEdit.addTextChangedListener(new TextWatcher() {
+
+        mChatTextEdit.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -180,7 +177,7 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
 
         updateChatTargetText(mTargetProvider.getChatTarget());
         return view;
-	}
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -199,15 +196,16 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
 
     /**
      * Adds the passed text to the fragment chat body.
+     *
      * @param message The message to add.
-     * @param scroll Whether to scroll to the bottom after adding the message.
+     * @param scroll  Whether to scroll to the bottom after adding the message.
      */
     public void addChatMessage(IChatMessage message, boolean scroll) {
-		if(mChatAdapter == null) return;
+        if (mChatAdapter == null) return;
 
         mChatAdapter.add(message);
 
-        if(scroll) {
+        if (scroll) {
             mChatList.post(new Runnable() {
 
                 @Override
@@ -216,32 +214,34 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
                 }
             });
         }
-	}
+    }
 
     /**
      * Sends the message currently in {@link com.morlunk.mumbleclient.channel.ChannelChatFragment#mChatTextEdit}
      * to the remote server. Clears the message box if the message was sent successfully.
+     *
      * @throws JumbleDisconnectedException If the service is disconnected.
      */
-	private void sendMessage() throws JumbleDisconnectedException {
-        if(mChatTextEdit.length() == 0) return;
+    private void sendMessage() throws JumbleDisconnectedException {
+        if (mChatTextEdit.length() == 0) return;
         String message = mChatTextEdit.getText().toString();
         String formattedMessage = markupOutgoingMessage(message);
         ChatTargetProvider.ChatTarget target = mTargetProvider.getChatTarget();
         IMessage responseMessage = null;
         IJumbleSession session = getService().getSession();
-        if(target == null)
+        if (target == null)
             responseMessage = session.sendChannelTextMessage(session.getSessionChannel().getId(), formattedMessage, false);
-        else if(target.getUser() != null)
+        else if (target.getUser() != null)
             responseMessage = session.sendUserTextMessage(target.getUser().getSession(), formattedMessage);
-        else if(target.getChannel() != null)
+        else if (target.getChannel() != null)
             responseMessage = session.sendChannelTextMessage(target.getChannel().getId(), formattedMessage, false);
         addChatMessage(new IChatMessage.TextMessage(responseMessage), true);
         mChatTextEdit.setText("");
-	}
+    }
 
     /**
      * Adds HTML markup to the message, replacing links and newlines.
+     *
      * @param message The message to markup.
      * @return HTML data.
      */
@@ -252,30 +252,30 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
                 .replaceAll("\n", "<br>");
         return formattedBody;
     }
-	
-	public void clear() {
+
+    public void clear() {
         mChatAdapter.clear();
         getService().clearMessageLog();
     }
 
-	/**
-	 * Updates hint displaying chat target.
-	 */
-	public void updateChatTargetText(final ChatTargetProvider.ChatTarget target) {
-        if(getService() == null || !getService().isConnected()) return;
+    /**
+     * Updates hint displaying chat target.
+     */
+    public void updateChatTargetText(final ChatTargetProvider.ChatTarget target) {
+        if (getService() == null || !getService().isConnected()) return;
 
         IJumbleSession session = getService().getSession();
         String hint = null;
-        if(target == null && session.getSessionChannel() != null) {
+        if (target == null && session.getSessionChannel() != null) {
             hint = getString(R.string.messageToChannel, session.getSessionChannel().getName());
-        } else if(target != null && target.getUser() != null) {
+        } else if (target != null && target.getUser() != null) {
             hint = getString(R.string.messageToUser, target.getUser().getName());
-        } else if(target != null && target.getChannel() != null) {
+        } else if (target != null && target.getChannel() != null) {
             hint = getString(R.string.messageToChannel, target.getChannel().getName());
         }
         mChatTextEdit.setHint(hint);
         mChatTextEdit.requestLayout(); // Needed to update bounds after hint change.
-	}
+    }
 
 
     @Override
@@ -315,7 +315,7 @@ public class ChannelChatFragment extends JumbleServiceFragment implements ChatTa
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
-            if(v == null) {
+            if (v == null) {
                 v = LayoutInflater.from(getContext()).inflate(R.layout.list_chat_item, parent, false);
             }
 

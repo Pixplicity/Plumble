@@ -17,10 +17,6 @@
 
 package com.morlunk.mumbleclient.util;
 
-import android.os.RemoteException;
-
-import com.morlunk.jumble.IJumbleService;
-import com.morlunk.jumble.model.Channel;
 import com.morlunk.jumble.model.IChannel;
 
 import java.util.LinkedList;
@@ -33,6 +29,7 @@ import java.util.List;
 public class ModelUtils {
     /**
      * Flattens the channel hierarchy, returning an array of channels in hierarchical order.
+     *
      * @param channel The root channel to flatten from.
      * @return A list of channels.
      */

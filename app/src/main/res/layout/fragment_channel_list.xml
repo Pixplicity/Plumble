@@ -17,20 +17,18 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:custom="http://schemas.android.com/apk/res-auto"
-	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<android.support.v7.widget.RecyclerView
-	    android:id="@+id/channelUsers"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/channelUsers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
-	    android:fastScrollEnabled="true"
-        android:choiceMode="singleChoice"/>
+        android:fastScrollEnabled="true" />
 
 </LinearLayout>
