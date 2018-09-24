@@ -36,8 +36,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -91,7 +91,7 @@ import java.util.List;
 
 import info.guardianproject.netcipher.proxy.OrbotHelper;
 
-public class PlumbleActivity extends ActionBarActivity implements ListView.OnItemClickListener,
+public class PlumbleActivity extends AppCompatActivity implements ListView.OnItemClickListener,
         FavouriteServerListFragment.ServerConnectHandler, JumbleServiceProvider, DatabaseProvider,
         SharedPreferences.OnSharedPreferenceChangeListener, DrawerAdapter.DrawerDataProvider,
         ServerEditFragment.ServerEditListener {
@@ -647,8 +647,7 @@ public class PlumbleActivity extends ActionBarActivity implements ListView.OnIte
                             }
                         });
                     } else if (error.getReason() == JumbleException.JumbleDisconnectReason.REJECT &&
-                               error.isAuthenticationFailure()) {
-                        // FIXME(acomminos): Long conditional.
+                            error.isAuthenticationFailure()) {
                         final EditText passwordField = new EditText(this);
                         passwordField.setInputType(InputType.TYPE_CLASS_TEXT |
                                 InputType.TYPE_TEXT_VARIATION_PASSWORD);
