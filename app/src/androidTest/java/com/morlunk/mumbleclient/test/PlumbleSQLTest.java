@@ -17,42 +17,61 @@
 
 package com.morlunk.mumbleclient.test;
 
-import android.test.AndroidTestCase;
 
 import com.morlunk.mumbleclient.db.PlumbleSQLiteDatabase;
 
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.UUID;
+
+import static android.support.test.InstrumentationRegistry.getContext;
+import static org.junit.Assert.assertEquals;
+
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
+
 
 /**
  * Test case designed to test operations of Plumble's database.
  * A new DB is created and destroyed with each test call.
  * Created by andrew on 19/08/14.
  */
-public class PlumbleSQLTestCase extends AndroidTestCase {
-    /** Database name used in the active test. */
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class PlumbleSQLTest {
+
+    /**
+     * Database name used in the active test.
+     */
     private String mDatabaseName;
-    /** Database for the active test. */
+
+    /**
+     * Database for the active test.
+     */
     private PlumbleSQLiteDatabase mDatabase;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void openDatabase() {
         mDatabaseName = UUID.randomUUID().toString() + ".db";
         mDatabase = new PlumbleSQLiteDatabase(getContext(), mDatabaseName);
         mDatabase.open();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void closeDatabase() {
         mDatabase.close();
         getContext().deleteDatabase(mDatabaseName);
     }
 
+    @Test
     public void testFavourite() {
-
     }
 
+    @Test
     public void testLocalMuteIgnore() {
         long server = 5;
         int userId = 1;
@@ -63,12 +82,13 @@ public class PlumbleSQLTestCase extends AndroidTestCase {
             mDatabase.addLocalIgnoredUser(server, userId);
             assertEquals(1, mDatabase.getLocalMutedUsers(server).size());
             assertEquals(1, mDatabase.getLocalIgnoredUsers(server).size());
-            assertEquals(userId, (int)mDatabase.getLocalMutedUsers(server).get(0));
-            assertEquals(userId, (int)mDatabase.getLocalIgnoredUsers(server).get(0));
+            assertEquals(userId, (int) mDatabase.getLocalMutedUsers(server).get(0));
+            assertEquals(userId, (int) mDatabase.getLocalIgnoredUsers(server).get(0));
         }
         mDatabase.removeLocalMutedUser(server, userId);
         mDatabase.removeLocalIgnoredUser(server, userId);
         assertEquals(0, mDatabase.getLocalMutedUsers(server).size());
         assertEquals(0, mDatabase.getLocalIgnoredUsers(server).size());
     }
+
 }
