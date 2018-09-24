@@ -136,7 +136,7 @@ public class PlumbleConnectionNotification {
         builder.setContentTitle(mService.getString(R.string.app_name));
         builder.setContentText(mCustomContentText);
         builder.setSmallIcon(R.drawable.ic_stat_notify);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setPriority(NotificationCompat.PRIORITY_LOW);
         builder.setOngoing(true);
         builder.setChannelId(CHANNEL_ID);
 
@@ -168,7 +168,7 @@ public class PlumbleConnectionNotification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = mService.getString(R.string.notification_channel_connection);
             String description = mService.getString(R.string.notification_channel_connection_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
